@@ -64,7 +64,7 @@ if inlist("${country_name}", "Hungary", "Slovakia") {
 if inlist("${dataStage}", "1. PTR") {
 	global path_aux = "Pretest Data"
 }
-else {
+if inlist("${dataStage}", "2. FFW") {
 	global path_aux = "Final Data"
 }
 

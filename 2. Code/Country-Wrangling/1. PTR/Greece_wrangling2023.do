@@ -149,7 +149,7 @@ drop aux
 /* Note:
 	1. Unbalanced groups in the IP module: 29 answered Option A while only 21 answered Option B1
 	2. Unbalanced groups in q60: 20 answered Option C while only 12 answered Option A. 18 for Option B
-*
+*/
 
 
 /*=================================================================================================================

@@ -32,11 +32,17 @@ global dataStage "1. PTR"
 global year 2023
 
 *------ (c) Original file name
-global dataName "Greece_PRT_20231102.sav"
+global dataName "Greece_PRT_20231102.sav"	
 
-*--- Please make sure the following tasks from the EU-GPP cleaning and validation protocol have already been performed:
+/*	IMPORTANT:
+	 Please confirm with the GPP team that this is INDEED the latest data file submitted by the polling company.
+
+	Notes:
+	 Please make sure the following tasks from the EU-GPP cleaning and validation protocol have already 
+	 been performed:
 		* File conversion (Step 1)
 		* UTF-8 encoding check (Step 1)
+*/ 
 
 /*=================================================================================================================
 					Pre-settings
@@ -92,12 +98,15 @@ global path2dos  "${path2SP}/EU-S Data/eu-gpp/2. Code"
 *--- Using the original name of the file to save it as DTA
 global dtaFile = ustrregexrf("${dataName}", "\..+", ".dta")
 
+*--- Loading paths to the data files submitted by the polling companies
+do "${path2dos}/Routines/rawData_paths.do"
+
 *--- Reading the data into STATA and saving the original raw dataset
 if (inlist("`c(username)'", "nrodriguez")) {
 	
 }
 else {
-	import spss using "${path2data}/${dataStage}/${country_name}/0. Raw Data/${dataName}", clear
+	import spss using "${RD_path}/${dataName}", clear
 	save "${path2data}/${dataStage}/${country_name}/0. Raw Data/${dtaFile}", replace
 }
 
@@ -138,8 +147,7 @@ g country_name_ltn = "${country_name}"
 g year = $year
 g id = _n
 merge m:1 country_name_ltn using "${path2meta}/general_info.dta", nogen keep(match) ///
-	keepusing(country_name_off country_name_lt country_code_nuts country_code_iso country_code_wb_a3 ///
-			  method income_group)
+	keepusing(country_name_off country_name_lt country_code_nuts country_code_iso method income_group)
 
 /* Note: 
 	Always double check that all obs should match
@@ -213,7 +221,7 @@ do "${path2dos}/Routines/val_labels.do"
 					Step 7: Quality Checks
 =================================================================================================================*/
 
-do "${path2dos}/Routines/quality_checks.do"
+*do "${path2dos}/Routines/quality_checks.do"
 
 
 /*=================================================================================================================

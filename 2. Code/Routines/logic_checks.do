@@ -86,6 +86,16 @@ if r(N) > 0 {
 	di as error "Number of observations reporting a household size > 15: " r(N)
 } 
 
+*--- Checking for continous variables with 98s & 99":
+foreach x of varlist AJR_solvingtime AJE_offwork_time AJE_income_loss AJE_healthcare_visits ///
+	AJE_hospital_time income2 {
+		
+	qui inspect `x' if inlist(`x', 98, 99)
+	if r(N) > 0 {
+		di as error "Variable `x' has values that resemble DK/NA. Please double check that they ARE NOT"
+	}
+}
+
 /*=================================================================================================================
 					Routing Checks
 =================================================================================================================*/

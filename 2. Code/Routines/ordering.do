@@ -3,7 +3,7 @@
 order 
 
 /* Pre-Survey Information */
-country_year_id country_name_ltn country_name_off country_code_nuts country_code_iso country_code_wb_a3 
+country_year_id country_name_ltn country_name_off country_code_nuts country_code_iso 
 nuts_ltn nuts_id year id gend age income_quintile income_text income_cur income_time method income_group
 
 /* Trust */

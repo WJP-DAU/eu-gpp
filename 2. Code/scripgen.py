@@ -92,12 +92,3 @@ for lab, row in codebook.iterrows():
     if  EUname != GlobalName and GlobalName != "No equivalent":
         line = "rename " + str(EUname) + " " + str(GlobalName)
         print(line)
-
-qset = ["A1", "A2", "A3", "B1", "B2", "B3", "B4", "C1", "C2", "C3", "C4", "D1", "D2", "D3",
-        "D4", "D5", "D6", "E1", "E2", "E3", "F1", "F2", "G1", "G2", "G3", "H1", "H2", "H3",
-        "I1", "J1", "J2", "J3", "J4", "K1", "K2", "K3", "L1", "L2"]
-a = 1
-results = []
-for lab in qset:
-    r = str(a) + ' "' + lab + '"'
-    print(r)

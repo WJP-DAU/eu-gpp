@@ -19,27 +19,32 @@ GPP merge data file.
 =================================================================================================================*/
 
 *--- Dropping variables
-drop country_name_off country_code_nuts country_code_iso nuts_ltn nuts_id CP_protest CP_consultation CP_cso ///
+drop country_name_off country_code_nuts nuts_ltn nuts_id CP_protest CP_consultation CP_cso ///
 	CTZ_accountability_A CTZ_gendereq CTZ_consrights CTZ_laborcond CTZ_envprotect CTZ_euvalues ///
 	CTZ_headgovteval CTZ_localgovteval CTZ_accountability_B ethni_groups incpp
 
 *--- Merging DK and NA values
-foreach x of varlist * {
-	replace `x' == 99 if `x' == 98
+ds, has(type numeric)
+foreach x in `r(varlist)' {
+	if !inlist("`x'", "id", "age") {
+		replace `x' = 99 if `x' == 98
+	}
 }
-foreach x in AJD_adviser AJE_description DIS_exp KNW_rol KNW_justice KNW_governance {
-	replace `x'_99 == 1 if `x'_98 == 1 
+foreach x in AJD_adviser AJE_description DIS_exp {
+	replace `x'_99 = 1 if `x'_98 == 1 
 	drop `x'_98
 }
 
-*--- Transforming variables to string
-rename ethni ethni2drop
-decode ethni2drop, gen(ethni)
+*--- Transforming specific variables to string
+if inlist("${dataStage}", "2. FFW") {
+	rename ethni ethni2drop
+	decode ethni2drop, gen(ethni)
 
-rename relig relig2drop 
-decode relig2drop, gen(relig)
+	rename relig relig2drop 
+	decode relig2drop, gen(relig)
 
-drop ethni2drop relig2drop
+	drop ethni2drop relig2drop
+}
 
 *--- Generating new variables
 egen country_year = concat(country_name_ltn year)
@@ -311,8 +316,8 @@ rename CPB_freexp_cso q46f_G2
 rename CPB_freexp_pp q46g_G2
 rename CPB_freeassem EU_q39j_G2
 rename CPB_protest q47_G2
-rename CPB_consultation EU_q41_G1
-rename CPB_cso EU_q42_G1
+rename CPB_consultation EU_q41_G2
+rename CPB_cso EU_q42_G2
 rename LEP_lawacts EU_q43a_G1
 rename LEP_investigations EU_q43b_G1
 rename LEP_rightsresp EU_q43c_G1
@@ -421,9 +426,9 @@ rename KNW_governance_3 EU_q60_G3_3
 rename KNW_governance_99 EU_q60_G3_99
 rename polid EU_paff1
 rename voteintention EU_paff2
-rename A2 A3
-rename A3 A4
 rename A4 A5
+rename A3 A4
+rename A2 A3
 rename A5_1 A6_1
 rename A5_2 A6_2
 rename A5b A6b

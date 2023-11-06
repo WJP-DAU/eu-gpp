@@ -67,9 +67,15 @@ rename Politics politics
 		- ethni / relig / paff2 (only for the pretest)
 	
 	- Also check their values and labels. 
-	- Please standardize the DK/NA values for income, income_cur, income_time to "Don't know" & "No Answer"
+	- Please standardize the DK/NA values for income, income_cur, income_time to:
+		- "Don't know"
+		- "No Answer"
+	- Please check that the DK/NA values for q33b, q38e, q38f, q38g_1, q38h_1, and Income2 as follow:
+		- "Don't know"
+		- "No Answer"
 	- Check the values for q17, they should be equal to the problem code: A2, A3, B1, L2, etc. This is VERY 
 	IMPORTANT for the A2J problem selection checks.
+	- Check that multiple choice questions (q14, q21, q36) are correctly encoded as binary 1 | 2
 */
 
 /*=================================================================================================================
