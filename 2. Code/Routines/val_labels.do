@@ -26,8 +26,8 @@ label define yn		1 "Yes"			///
 foreach x in ///
 	BRB_* SEC_* DIS_* AJP_*_bin AJD_* AJR_resolution AJR_*_bin ///
 	AJR_fair AJR_slow AJR_expensive AJE_description_* AJE_health AJE_emotional AJE_income AJE_drugs ///
-	AJE_healthcare AJE_hospital ///
-	CP_* mcertificate disability incpp A2 A4 A5_* A5b A6 B2 {
+	AJE_healthcare AJE_hospital AJR_solvingcosts ///
+	CP_* mcertificate disability incpp A2 A4 A5_* A5b A6 B2 qpi1 {
 		
 	label values `x' yn
 }
@@ -97,7 +97,7 @@ label define satis	1 "Very satisfied" 		///
 					4 "Very dissatisfied" 	///
 					98 "Don't know"			///
 					99 "No answer", replace
-foreach x in AJR_satis_ongoing {
+foreach x in AJR_satis_ongoing AJR_satis_outcome {
 	label values `x' satis
 }
 
@@ -251,6 +251,14 @@ label define AJR_noresol_reason 1 "I thought the problem was not important enoug
 								98 "Don't Know" ///
 								99 "No answer", replace
 
+*--- AJR_costdiff
+label define AJR_costdiff	1 "Very easy" 			///
+							2 "Somewhat easy"		///	
+							3 "Difficult"			///
+							4 "Nearly impossible" 	///
+							98 "Don't Know"			///
+							99 "No answer", replace
+								
 *--- AJR_settle_noresol
 label define AJR_settle_noresol	1 "Agreement between you and the other party" ///
 								2 "The other party independently doing what you wanted" ///
@@ -406,7 +414,7 @@ label define urban 1 "Urban" 2 "Rural", replace
 
 
 *--- Applying unique values
-foreach x of varlist gend COR_3year_change AJD_noadvice_reason AJR_noresol_reason AJR_settle_noresol AJR_settle_resol AJR_outcome ///
+foreach x of varlist gend COR_3year_change AJD_noadvice_reason AJR_noresol_reason AJR_costdiff AJR_settle_noresol AJR_settle_resol AJR_outcome ///
 	nation fin ethni_groups edu emp work wagreement marital disability2 politics A3 A5c A7 B1 B3 qpi2* urban {
 	
 	label values `x' `x'

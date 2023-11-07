@@ -221,14 +221,20 @@ do "${path2dos}/Routines/val_labels.do"
 					Step 7: Quality Checks
 =================================================================================================================*/
 
-*do "${path2dos}/Routines/quality_checks.do"
+cls
+do "${path2dos}/Routines/quality_checks.do"
+
+/* Note:
+	Search for RED ERROR messages in the console after running the quality checks.
+	Pay attention to the tabs dissaggregating the DKNA by sociodemographic (NO RED MESSAGE HERE, so pay attention)
+*/
 
 
 /*=================================================================================================================
 					Saving Clean Data
 =================================================================================================================*/
 
-save "${path2data}/${dataStage}/${country_name}/1. Clean Data/${cname}_clean.dta", replace
+save "${path2data}/${dataStage}/${country_name}/1. Clean Data/${country_name}_clean.dta", replace
 
 
 /*=================================================================================================================
@@ -236,5 +242,5 @@ save "${path2data}/${dataStage}/${country_name}/1. Clean Data/${cname}_clean.dta
 =================================================================================================================*/
 
 do "${path2dos}/Routines/harmonization.do"
-
+save "${path2data}/${dataStage}/${country_name}/1. Clean Data/${country_name}_global.dta", replace
 

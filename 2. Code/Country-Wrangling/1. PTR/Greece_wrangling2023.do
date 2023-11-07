@@ -151,6 +151,14 @@ drop aux
 	2. Unbalanced groups in q60: 20 answered Option C while only 12 answered Option A. 18 for Option B
 */
 
+/*=================================================================================================================
+					Comments on the quality checks
+=================================================================================================================*/
+
+/* Notes:
+	1. 6 obs (12%) have more than 10 DK/NA values in the target variables.
+	2. Unbalanced demographics
+*/
 
 /*=================================================================================================================
 					SAVING

@@ -35,11 +35,13 @@ protocol guidelines and use the interactive codebook tool.
 		NUTS 1 level according to the sampling plan. So, be careful. If you don't know, ask.
 */
 
+
 /*=================================================================================================================
 					Adding missing variables from the data map
 =================================================================================================================*/
 
 g q36_8    = .
+
 
 /*=================================================================================================================
 					Dropping variables added by the polling company
@@ -49,6 +51,7 @@ drop gend_quota age2 quota_group ///
 	q60_G1_1_99 q60_G1_2_99 q60_G1_3_99 q60_G2_1_99 q60_G2_2_99 q60_G2_3_99 q60_G3_1_99 q60_G3_2_99 q60_G3_3_99 ///
 	consent_relig consent_ethni consent_disability consent_politics Income2_check 
 
+	
 /*=================================================================================================================
 					Renaming/Recoding variables
 =================================================================================================================*/
@@ -76,7 +79,9 @@ rename Politics politics
 	- Check the values for q17, they should be equal to the problem code: A2, A3, B1, L2, etc. This is VERY 
 	IMPORTANT for the A2J problem selection checks.
 	- Check that multiple choice questions (q14, q21, q36) are correctly encoded as binary 1 | 2
+	- Make sure that the interview lenght is in minutes
 */
+
 
 /*=================================================================================================================
 					Special Cases (Only for FULL FIELDWORK)
@@ -90,11 +95,24 @@ rename Politics politics
 * recode ethni (x=y)	 	// Recode following the European Standard Classification of Cultural and Ethnic Groups
 * recode ethni (x=1)(y=2)(z=3)(98/99 = .), g(ethni_groups)
 
+
 /*=================================================================================================================
 					Adjustments from the logic, randomization, and routing checks
 =================================================================================================================*/
 
-* ADD HERE ANY ISSUES FOUND DURING THE LOGIC, RANDOMIZATION, AND ROUTING CHECKS THAT NEED TO BE FIXED 
+* ADD HERE ANY ISSUES OR COMMENTS FOUND DURING THE LOGIC, RANDOMIZATION, AND ROUTING CHECKS THAT NEED TO BE FIXED 
+
+
+/*=================================================================================================================
+					Comments on the quality checks
+=================================================================================================================*/
+
+* WRITE HERE ANY COMMENTS REGARDING THE QUALITY CHECKS
+
+
+/*=================================================================================================================
+					SAVING
+=================================================================================================================*/
 
 /* Note:
 	Please save the country wrangle routines within the EU-S DATA / GPP / 2. Code / Country-Wrangling folder
