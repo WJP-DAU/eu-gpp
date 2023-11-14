@@ -49,7 +49,7 @@ global dataName "Greece_PRT_20231102.sav"
 =================================================================================================================*/
 
 *--- Stata Version
-version 18
+version 15
 
 *--- Required packages:
 * NONE
@@ -68,7 +68,7 @@ else if (inlist("`c(username)'", "santiagopardo")) {
 
 *------ (b) Natalia Rodriguez:
 else if (inlist("`c(username)'", "nrodriguez")) {
-	global path2SP "/Users/nrodriguez/OneDrive - World Justice Project/Programatic/EU Subnational"
+	global path2SP "C:\Users\nrodriguez\OneDrive - World Justice Project\Programmatic\EU Subnational"
 }
 
 *------ (c) Dalia Habiby:
@@ -103,12 +103,13 @@ do "${path2dos}/Routines/rawData_paths.do"
 
 *--- Reading the data into STATA and saving the original raw dataset
 if (inlist("`c(username)'", "nrodriguez")) {
-	
+	usespss "${RD_path}/${dataName}", clear
 }
 else {
 	import spss using "${RD_path}/${dataName}", clear
-	save "${path2data}/${dataStage}/${country_name}/0. Raw Data/${dtaFile}", replace
 }
+
+save "${path2data}/${dataStage}/${country_name}/0. Raw Data/${dtaFile}", replace
 
 /* Note:
 	Please make sure that the character encodings are UTF-8 (STEP 1). See the step_1.do file.
