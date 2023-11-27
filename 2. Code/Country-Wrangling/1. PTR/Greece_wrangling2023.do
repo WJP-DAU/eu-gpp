@@ -21,7 +21,7 @@ protocol guidelines and use the interactive codebook tool.
 /* Note:
 	I have identified that the variable "region" contains the information on the NUTS 1 regions, which are the
 	target regions according to the sampling plan. The variable "adm_region_con" contains the info for the
-	admin regional units of Greece. Which are equal to the NUTS 2. This should the info in the "region" variable
+	admin regional units of Greece. Which are equal to the NUTS 2. This should be the info in the "region" variable
 	according to the datamap.
 */
 
@@ -132,6 +132,10 @@ g ethni_groups = .
 foreach x of varlist q44a_G1 q44f_G1 q44g_G1 q44i_G1 q44j_G1 {
 	replace `x' = 98 if `x' == 5
 }
+
+*--- Logic/encoding issues
+replace Income2 = -8888 if Income2 == 98
+replace Income2 = -9999 if Income2 == 99
 
 *--- Routing issues
 replace q7c = . if q6c == 2

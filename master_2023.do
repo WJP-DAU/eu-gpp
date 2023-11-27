@@ -21,7 +21,7 @@ cls
 *--- Parameters:
 
 *------ (a) For which country are we going to run this do-file?
-global country_name "Greece"
+global country_name "Cyprus"
 
 *------ (b) What data stage is this?
 			// Pretest: 		Please input "1. PTR"
@@ -32,7 +32,7 @@ global dataStage "1. PTR"
 global year 2023
 
 *------ (c) Original file name
-global dataName "Greece_PRT_20231102.sav"	
+global dataName "Cyprus_PRT_20231127.sav"	
 
 /*	IMPORTANT:
 	 Please confirm with the GPP team that this is INDEED the latest data file submitted by the polling company.
@@ -159,6 +159,10 @@ egen country_year_id = concat(country_name_ltn year id), punct("_")
 
 *--- Variable renaming
 do "${path2dos}/Routines/variable_renaming.do"
+/* Note: 
+	The variable names changed. But now, the labels are the variable names in the paper questionnaire.
+	This is done temporarily to help you write the pretest notes.
+*/
 
 *--- Adding transformed variables
 decode income_quintile, gen(income_text)
@@ -174,7 +178,7 @@ foreach x in gendereq consrights laborcond envprotect euvalues headgovteval loca
 *--- Ordering dataset
 do "${path2dos}/Routines/ordering.do"
 /* Note: 
-	After ordering, STRATA should be the last variable in the dataset. Doucle check this please.
+	After ordering, STRATA should be the last variable in the dataset. Double check this please.
 */
 
 *--- Is the unique ID unique? 
@@ -197,6 +201,19 @@ do "${path2dos}/Routines/logic_checks.do"
 */
 
 /*=================================================================================================================
+					Step 7: Quality Checks
+=================================================================================================================*/
+
+cls
+do "${path2dos}/Routines/quality_checks.do"
+
+/* Note:
+	Search for RED ERROR messages in the console after running the quality checks.
+	Pay attention to the tabs dissaggregating the DKNA by sociodemographic (NO RED MESSAGE HERE, so pay attention)
+*/
+
+
+/*=================================================================================================================
 					Step 6: Labelling
 =================================================================================================================*/
 
@@ -216,18 +233,6 @@ do "${path2dos}/Routines/val_labels.do"
 	For example:
 	
 	note CTZ_localgovteval_B
-*/
-
-/*=================================================================================================================
-					Step 7: Quality Checks
-=================================================================================================================*/
-
-cls
-do "${path2dos}/Routines/quality_checks.do"
-
-/* Note:
-	Search for RED ERROR messages in the console after running the quality checks.
-	Pay attention to the tabs dissaggregating the DKNA by sociodemographic (NO RED MESSAGE HERE, so pay attention)
 */
 
 

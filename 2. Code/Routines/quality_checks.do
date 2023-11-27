@@ -55,7 +55,28 @@ foreach x of varlist gend age_groups relig ethni income_quintile edu {
 }
 drop DKNA DKNA_bin age_groups
 
+*--- Variables with the highest count of DKNA
+foreach x of varlist 	///
+	TRT_* ATC_* COR_* BRB_* IPR_* IRE_* SEC_* DIS_* ///
+	AJD_* AJR_* AJE_* ///
+	CPA_* CPB_* LEP_* CJP_* CTZ_* PAB_* JSE_* ROL_* {
 
+	g aux_`x' = (`x' == 98 | `x' == 99)
+	replace aux_`x' = . if `x' == .
+}
+foreach x of varlist aux_* {
+	qui sum `x'
+	if r(mean) > 0.15 & r(N) > 0 {
+		local orig = subinstr("`x'", "aux_", "", 1)
+		local vlab : variable label `orig'
+		di as error "`x' [`vlab']"
+		di as error r(mean) " percent of obs with DK/NA"
+		di as error "Total of obs: " r(N)
+		di as error "====================================="
+	}
+}
+drop aux_*
+	
 /*=================================================================================================================
 					Answering flags
 =================================================================================================================*/
