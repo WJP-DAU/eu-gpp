@@ -41,6 +41,10 @@ for lab, row in codebook.iterrows():
     if  EUname != row["Variable"] and EUname != "Transformed variable":
         line = "rename " + str(EUname) + " " + str(row["Variable"])
         print(line)
+for lab, row in codebook.iterrows():
+    label = row["2023  EU Questionnaire"]
+    line  = "label var " + str(row["Variable"]) + ' "' + str(label) + '"'
+    print(line)
 
 # Order variables
 qquestions = codebook[~codebook["2023  EU Questionnaire"].isin(["Transformed variable"])]
