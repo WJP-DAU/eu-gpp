@@ -21,7 +21,7 @@ cls
 *--- Parameters:
 
 *------ (a) For which country are we going to run this do-file?
-global country_name "Portugal"
+global country_name "Malta"
 
 *------ (b) What data stage is this?
 			// Pretest: 		Please input "1. PTR"
