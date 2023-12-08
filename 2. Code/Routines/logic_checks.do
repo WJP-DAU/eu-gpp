@@ -50,13 +50,13 @@ foreach x in `qset'  {
 
 *------ (c) Are we having non-elegible problems selected?
 foreach x in `qset' {
-	qui count if AJP_problem == "`x'" & elegible_`x' == 0
+	qui count if AJP_problem == "`x'" & elegible_`x' == 0 & highseverity==1
 	if r(N) > 0 {
 		di as error "AJP_problem: Problem `x' has " r(N) " obs with unvalid selection"
 	}
 }
 
-*drop highseverity sum_severity elegible_*
+drop highseverity sum_severity elegible_*
 
 *--- Off-work time:
 di as result "Testing the off-work time (q38e)"
