@@ -67,6 +67,7 @@ rename Politics politics
 		- Region
 		- Strata / PSU / SSU
 		- ethni / relig / paff2 (only for the pretest)
+		- rol open ended questions
 	
 	- Also check their values and labels. 
 	- Please standardize the DK/NA values for income, income_cur, income_time to (No need for pretest):
