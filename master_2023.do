@@ -32,7 +32,7 @@ global dataStage "1. PTR"
 global year 2023
 
 *------ (c) Original file name
-global dataName "Portugal_PRT_20231128.sav"	
+global dataName "WORLD JUSTICE PROJECT General Population Poll 2023 - Pilot data.sav"	
 
 /*	IMPORTANT:
 	 Please confirm with the GPP team that this is INDEED the latest data file submitted by the polling company.
