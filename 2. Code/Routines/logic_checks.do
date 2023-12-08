@@ -42,15 +42,14 @@ foreach x in `qset'  {
 }
 
 *------ (b) Is Problem X elegible for this person?
-egen sum_severity = rowtotal(AJP_*_sev)
 foreach x in `qset'  {
 	g elegible_`x' = (AJP_`x'_sev >= 4 & AJP_`x'_sev != .)
-	replace elegible_`x' = 1 if sum_severity > 0 & AJP_`x'_sev != . & highseverity == 0
+	replace elegible_`x' = 1 if AJP_`x'_sev != . & highseverity == 0
 }
 
 *------ (c) Are we having non-elegible problems selected?
 foreach x in `qset' {
-	qui count if AJP_problem == "`x'" & elegible_`x' == 0 & highseverity==1
+	qui count if AJP_problem == "`x'" & elegible_`x' == 0
 	if r(N) > 0 {
 		di as error "AJP_problem: Problem `x' has " r(N) " obs with unvalid selection"
 	}
