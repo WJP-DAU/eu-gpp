@@ -56,7 +56,7 @@ foreach x in `qset' {
 	}
 }
 
-drop highseverity sum_severity elegible_*
+*drop highseverity sum_severity elegible_*
 
 *--- Off-work time:
 di as result "Testing the off-work time (q38e)"
