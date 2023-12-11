@@ -30,45 +30,66 @@ if r(N) == 0{
 	di as error "Age has no values above 45. Potentially coded as categorical."
 }
 
-*--- Problems mentioned and severity:
-/* CHECK:
-1. sub:  If there is no severity in q20, but the problem was mentioned
-2. imp:  If there is a severity associated to a problem that was not mentioned
-3. none: If there is a problem in q21, but it was not selected in q19
-*/
+*--- Problems mentioned and selected:
 
-		gen sub=0
-		gen imp=0
-		gen none=0
-			foreach x in A1 A2 A3 B1 B2 B3 B4 C1 C2 C3 C4 D1 D2 D3 D4 D5 D6 E1 E2 E3 F1 F2 G1 G2 G3 H1 H2 H3 I1 J1 J2 J3 J4 K1 K2 K3 L1 L2 {
-				replace sub=sub+1 if AJP_`x'_sev==. & AJP_`x'_bin==1
-				replace imp=imp+1 if AJP_`x'_sev!=. & AJP_`x'_bin!=1
-				replace none=none+1 if AJP_problem=="`x'" & AJP_`x'_bin!=1
-				}
-
-*** READ: Check all the cases for nonzero values in these variables
-
-di as result "Testing problems mentioned without severity"
-qui inspect sub 
-if r(N_pos) > 0 {
-	di as error "Number of observations with a problem mentioned and no severity associated: " r(N_pos)
+foreach x in A1 A2 A3 B1 B2 B3 B4 C1 C2 C3 C4 D1 D2 D3 D4 D5 D6 E1 E2 E3 F1 F2 G1 G2 G3 H1 H2 H3 I1 J1 J2 J3 J4 K1 K2 K3 L1 L2 {
+	recode AJP_`x'_bin (1 =1 ) (2 98 99 = .), g(aux_`x')
 }
 
-di as result "Testing problems not mentioned with a severity associated"
-qui inspect imp 
-if r(N_pos) > 0 {
-	di as error "Number of observations with a severity associated to a problem that was not mentioned: " r(N_pos)
+egen ndisputes=rowtotal(aux_A1-aux_L2)
+
+di as result "Testing that respondents with no problem selected in fact didn't mention any legal problem"
+qui count if ndisputes==0 & AJP_problem!="" 
+if r(N) > 0 {
+	di as error "Number of observations with a problem selected but no mentioned problems: " r(N)
 }
 
+di as result "Testing that respondents mentioned problems and do have a problem selected"
+qui count if ndisputes>0 & AJP_problem=="" 
+if r(N) > 0 {
+	di as error "Number of observations with mentioned problems but no problem selected: " r(N)
+}
 
-di as result "Testing problems selected that were not mentioned"
+gen none=0
+	foreach x in A1 A2 A3 B1 B2 B3 B4 C1 C2 C3 C4 D1 D2 D3 D4 D5 D6 E1 E2 E3 F1 F2 G1 G2 G3 H1 H2 H3 I1 J1 J2 J3 J4 K1 K2 K3 L1 L2 {
+		replace none=none+1 if AJP_problem=="`x'" & AJP_`x'_bin!=1
+}
+
+di as result "Testing that the problem selected was mentioned"
 qui inspect none 
 if r(N_pos) > 0 {
 	di as error "Number of observations with a problem selected that was not mentioned: " r(N_pos)
 }
-	
 
-*--- Problem selection:
+drop aux* ndisputes none
+
+*--- Problem severity
+local qset A1 A2 A3 B1 B2 B3 B4 C1 C2 C3 C4 D1 D2 D3 D4 D5 D6 E1 E2 E3 F1 ///
+	F2 G1 G2 G3 H1 H2 H3 I1 J1 J2 J3 J4 K1 K2 K3 L1 L2
+
+foreach x in `qset' {
+	
+	di as result "Testing the routing rules in AJP_`x'"
+	
+	*--- Are there any severity for problems that were NOT mentioned?
+	qui inspect AJP_`x'_sev if AJP_`x'_bin != 1
+	
+	if r(N) > 0 {
+		di as error "AJP_`x'_bin:" r(N) " obs with incorrect routing (skip)"
+	}
+	
+	*--- Are there problems that were mentioned but do not have reported severities?
+	qui inspect AJP_`x'_sev
+	local a = r(N)
+	qui count if AJP_`x'_bin == 1
+	local b = r(N)
+	
+	if `a' != `b'  {
+		di as error "AJP_`x'_bin: check the NO-SKIP rule"
+	}
+}
+
+*--- Problem selection rule:
 di as result "Testing the problem selection rules"
 local qset A1 A2 A3 B1 B2 B3 B4 C1 C2 C3 C4 D1 D2 D3 D4 D5 D6 E1 E2 E3 F1 ///
 	F2 G1 G2 G3 H1 H2 H3 I1 J1 J2 J3 J4 K1 K2 K3 L1 L2	
@@ -178,57 +199,28 @@ foreach x in `qset' {
 	recode DIS_`x' (1 = 1)(2 98 99 = .), g(aux_`c')
 	local ++c
 }
+
 egen aux_t = rowtotal(aux_*)
 
 *--- We test the skip rule
-qui inspect DIS_exp_1 if aux_t == 0
+forvalues i=1/12 {
+	qui inspect DIS_exp_`i' if aux_t == 0
 
 if r(N) > 0 {
-	di as error "DIS_exp:" r(N) " obs with incorrect routing (skip)"
+	di as error "DIS_exp_`i':" r(N) " obs with incorrect routing (skip)"
+}
 }
 
 *--- We test the no-skip rule
-qui inspect DIS_exp_1
-local a = r(N)
-qui count if aux_t > 0 & aux_t != .
-local b = r(N)
 
-if `a' != `b' {
-	di as error "DIS_exp: check the NO-SKIP rule"
+forvalues i=1/12 {
+	qui count if DIS_exp_`i'==. & aux_t>0
+	if r(N) > 0 {
+		di as error "DIS_exp_`i': check the NO-SKIP rule"
+}
 }
 
 drop aux_*
-
-//------------------------------
-//  DISCRIMINATION
-//------------------------------
-
-*--- Problem severity
-local qset A1 A2 A3 B1 B2 B3 B4 C1 C2 C3 C4 D1 D2 D3 D4 D5 D6 E1 E2 E3 F1 ///
-	F2 G1 G2 G3 H1 H2 H3 I1 J1 J2 J3 J4 K1 K2 K3 L1 L2
-
-foreach x in `qset' {
-	
-	di as result "Testing the routing rules in AJP_`x'"
-	
-	*--- Are there any severity for problems that were NOT mentioned?
-	qui inspect AJP_`x'_sev if AJP_`x'_bin != 1
-	
-	if r(N) > 0 {
-		di as error "AJP_`x'_bin:" r(N) " obs with incorrect routing (skip)"
-	}
-	
-	*--- Are there problems that were mentioned but do not have reported severities?
-	qui inspect AJP_`x'_sev
-	local a = r(N)
-	qui count if AJP_`x'_bin == 1
-	local b = r(N)
-	
-	if `a' != `b'  {
-		di as error "AJP_`x'_bin: check the NO-SKIP rule"
-	}
-}
-
 
 //------------------------------
 //  ACCESS TO JUSTICE
