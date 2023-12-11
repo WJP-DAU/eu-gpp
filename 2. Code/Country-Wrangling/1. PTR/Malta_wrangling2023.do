@@ -148,6 +148,10 @@ g ethni_groups = .
 
 * ADD HERE ANY ISSUES OR COMMENTS FOUND DURING THE LOGIC, RANDOMIZATION, AND ROUTING CHECKS THAT NEED TO BE FIXED 
 
+foreach x in a b c d e f g h i j k {
+recode q13`x' (1 = 1)(2 98 99 = .), g(aux_q13_`x')
+}
+
 
 /*=================================================================================================================
 					Comments on the quality checks
