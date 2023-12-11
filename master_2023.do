@@ -86,10 +86,46 @@ else {
 	global path2SP "INSERT_PATH_TO_EU_SUBNATIONAL_SHARE_POINT_HERE"
 }
 
+*--- Defining paths to GitHub:
+
+*------ (a) Carlos Toruno:
+if (inlist("`c(username)'", "ctoruno")) {
+	global path2GH ""
+}
+
+*------ (b) Santiago Pardo:
+else if (inlist("`c(username)'", "santiagopardo")) {
+	global path2GH ""
+}
+
+*------ (b) Natalia Rodriguez:
+else if (inlist("`c(username)'", "nrodriguez")) {
+	global path2GH "C:\Users\nrodriguez\OneDrive - World Justice Project\Natalia\GitHub"
+}
+
+*------ (c) Dalia Habiby:
+else if (inlist("`c(username)'", "Dhabiby")) {
+	global path2GH ""
+}
+
+*------ (d) Artha Pillai:
+else if (inlist("`c(username)'", "apillai")) {
+	global path2GH ""
+}
+
+*------ (e) Any other user: PLEASE INPUT YOUR PERSONAL PATH TO THE SHAREPOINT DIRECTORY:
+else {
+	global path2GH "INSERT_PATH_TO_EU_SUBNATIONAL_SHARE_POINT_HERE"
+}
+
 *--- Defining path to Data and DoFiles:
 global path2meta "${path2SP}/EU-S Data/eu-gpp/0. Metadata"
 global path2data "${path2SP}/EU-S Data/eu-gpp/1. Data"
 global path2dos  "${path2SP}/EU-S Data/eu-gpp/2. Code"
+
+*--- Defining path to DoFiles (for country wrangling):
+global path2wr "${path2GH}/eu-gpp/2. Code"
+
 
 /*=================================================================================================================
 					Data Loading
@@ -130,7 +166,7 @@ log close
 	Before running the cleaning routine, please use the EU-Copilot to assess unmapped/missing 
 	variables (Step 2)
 */
-do "${path2dos}/Country-Wrangling/${dataStage}/${country_name}_wrangling${year}.do"
+do "${path2wr}/Country-Wrangling/${dataStage}/${country_name}_wrangling${year}.do"
 
 *--- Do all variables fall within the expected range?  (Step 2)
 cls
