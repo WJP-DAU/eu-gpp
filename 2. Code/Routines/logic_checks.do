@@ -30,10 +30,48 @@ if r(N) == 0{
 	di as error "Age has no values above 45. Potentially coded as categorical."
 }
 
+*--- Problems mentioned and severity:
+/* CHECK:
+1. sub:  If there is no severity in q20, but the problem was mentioned
+2. imp:  If there is a severity associated to a problem that was not mentioned
+3. none: If there is a problem in q21, but it was not selected in q19
+*/
+
+		gen sub=0
+		gen imp=0
+		gen none=0
+			foreach x in A1 A2 A3 B1 B2 B3 B4 C1 C2 C3 C4 D1 D2 D3 D4 D5 D6 E1 E2 E3 F1 F2 G1 G2 G3 H1 H2 H3 I1 J1 J2 J3 J4 K1 K2 K3 L1 L2 {
+				replace sub=sub+1 if AJP_`x'_sev==. & AJP_`x'_bin==1
+				replace imp=imp+1 if AJP_`x'_sev!=. & AJP_`x'_bin!=1
+				replace none=none+1 if AJP_problem=="`x'" & AJP_`x'_bin!=1
+				}
+
+*** READ: Check all the cases for nonzero values in these variables
+
+di as result "Testing problems mentioned without severity"
+qui inspect sub 
+if r(N_pos) > 0 {
+	di as error "Number of observations with a problem mentioned and no severity associated: " r(N_pos)
+}
+
+di as result "Testing problems not mentioned with a severity associated"
+qui inspect imp 
+if r(N_pos) > 0 {
+	di as error "Number of observations with a severity associated to a problem that was not mentioned: " r(N_pos)
+}
+
+
+di as result "Testing problems selected that were not mentioned"
+qui inspect none 
+if r(N_pos) > 0 {
+	di as error "Number of observations with a problem selected that was not mentioned: " r(N_pos)
+}
+	
+
 *--- Problem selection:
 di as result "Testing the problem selection rules"
 local qset A1 A2 A3 B1 B2 B3 B4 C1 C2 C3 C4 D1 D2 D3 D4 D5 D6 E1 E2 E3 F1 ///
-	F2 G1 G2 G3 H1 H2 H3 I1 J1 J2 J3 J4 K1 K2 K3 L1 L2
+	F2 G1 G2 G3 H1 H2 H3 I1 J1 J2 J3 J4 K1 K2 K3 L1 L2	
 	
 *------(a) Did the person mentioned any problem with high severity?
 g highseverity = 0
@@ -55,7 +93,7 @@ foreach x in `qset' {
 	}
 }
 
-drop highseverity sum_severity elegible_*
+drop highseverity elegible_*
 
 *--- Off-work time:
 di as result "Testing the off-work time (q38e)"
