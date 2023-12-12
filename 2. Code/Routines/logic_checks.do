@@ -170,20 +170,23 @@ foreach x in  `qset' {
 	
 	*--- We test the skip rule
 	qui inspect BRB_`x'_B if BRB_`x'_A != 1
-	
-	if r(N) > 0 {
+		if r(N) > 0 {
 		di as error "BRB_`x'_B:" r(N) " obs with incorrect routing (skip)"
 	}
 	
 	*--- We test the no-skip rule 
+	qui count if BRB_`x'_B==. & BRB_`x'_A==1
+	if r(N)>0  {
+		di as error "BRB_`x'_B: check the NO-SKIP rule"
+		
 	qui inspect BRB_`x'_B
 	local a = r(N)
 	qui count if BRB_`x'_A == 1
 	local b = r(N)
-	
-	if `a' != `b'  {
+	if `a' != `b'  {	
 		di as error "BRB_`x'_B: check the NO-SKIP rule"
 	}
+}
 }
 
 //------------------------------
@@ -194,10 +197,8 @@ di as result "Testing the routing rules in DIS_exp"
 
 *--- Discrimination 
 local qset "sex age health ethni migration ses location religion family gender politics"
-local c = 1
 foreach x in `qset' {
-	recode DIS_`x' (1 = 1)(2 98 99 = .), g(aux_`c')
-	local ++c
+	recode DIS_`x' (1 = 1)(2 98 99 = .), g(aux_`x')
 }
 
 egen aux_t = rowtotal(aux_*)
@@ -217,7 +218,14 @@ forvalues i=1/12 {
 	qui count if DIS_exp_`i'==. & aux_t>0
 	if r(N) > 0 {
 		di as error "DIS_exp_`i': check the NO-SKIP rule"
-}
+	}
+	qui inspect DIS_exp_`i'
+	local a = r(N)
+	qui count if aux_t>0
+	local b = r(N)
+	if `a' != `b'  {	
+		di as error "DIS_exp_`i': check the NO-SKIP rule"
+	}
 }
 
 drop aux_*
@@ -240,11 +248,15 @@ if r(N) > 0 {
 }
 
 *------ (b) We test the NO-SKIP rule
+qui count if AJD_selfemployment==. & aux_t == 1
+if r(N) > 0 {
+	di as error "AJD_selfemployment: check the NO-SKIP rule"
+}
+
 qui inspect AJD_selfemployment
 local a = r(N)
 qui count if aux_t == 1
 local b = r(N)
-
 if `a' != `b' {
 	di as error "AJD_selfemployment: check the NO-SKIP rule"
 }
@@ -255,56 +267,72 @@ drop aux*
 *--- AJD_inst_advice (q20) 
 
 *------ (a) We test the SKIP rule (AJD_inst_advice == 2)
-foreach x of varlist AJD_adviser_1 AJD_expert_adviser {
-	qui inspect `x' if AJD_inst_advice == 2
+
+forvalues i=1/9 {
+qui inspect AJD_adviser_`i' if AJD_inst_advice == 2
 	if r(N) > 0 {
-		di as error "AJD_inst_advice: " r(N) " obs with incorrect routing (skip x == 2)"
+		di as error "AJD_adviser_`i': " r(N) " obs with incorrect routing (skip x == 2)"
 	}
 }
-qui inspect AJD_noadvice_reason if AJD_inst_advice == 2
-local a = r(N)
-qui count if AJD_inst_advice == 2
-local b = r(N)
-if `a' != `b' {
+
+qui inspect AJD_expert_adviser if AJD_inst_advice == 2
+	if r(N) > 0 {
+		di as error "AJD_expert_adviser: " r(N) " obs with incorrect routing (skip x == 2)"
+	}
+
+qui count if AJD_noadvice_reason==. & AJD_inst_advice == 2  	
+if r(N) > 0 {
 	di as error "AJD_inst_advice: " r(N) " obs with incorrect routing (landing x == 2)"
 }
 
 *------ (b) We test the SKIP rule (AJD_inst_advice > 2)
-foreach x of varlist AJD_adviser_1 AJD_expert_adviser AJD_noadvice_reason {
+foreach x of varlist AJD_adviser_* AJD_expert_adviser AJD_noadvice_reason {
 	qui inspect `x' if AJD_inst_advice == 98 | AJD_inst_advice == 99
 	if r(N) > 0 {
-		di as error "AJD_inst_advice: " r(N) " obs with incorrect routing (skip x > 2)"
+		di as error "`x': " r(N) " obs with incorrect routing (skip x > 2)"
 	}
 }
-qui inspect AJR_resolution if AJD_inst_advice == 98 | AJD_inst_advice == 99
-local a = r(N)
-qui count if AJD_inst_advice == 98 | AJD_inst_advice == 99
-local b = r(N)
-if `a' != `b' {
-	di as error "AJD_inst_advice: " r(N) " obs with incorrect routing (landing x > 2)"
+
+qui count if AJR_resolution==. & AJD_inst_advice>2 & AJD_inst_advice!=.
+if r(N)>0 {
+	di as error "AJR_resolution: " r(N) " obs with incorrect routing (landing x > 2)"
 }
 
 *------ (c) We test the NO-SKIP rule (AJD_inst_advice == 1)
-qui inspect AJD_adviser_1
-local a = r(N)
-qui count if AJD_inst_advice == 1
-local b = r(N)
-
-if `a' != `b' {
-	di as error "AJD_inst_advice: check the NO-SKIP rule"
+forvalues i=1/9 {
+	qui count if AJD_adviser_`i'==. & AJD_inst_advice == 1
+	if r(N) > 0 {
+		di as error "AJD_adviser_`i': check the NO-SKIP rule"
+		}
+		
+	qui inspect AJD_adviser_`i' 	
+	local a = r(N)
+	qui count if AJD_inst_advice == 1
+	local b = r(N)
+	if `a' != `b' {
+		di as error "AJD_adviser_`i': check the NO-SKIP rule"
+		}	
 }
 
 *------ (d) We test the NO-SKIP rule (AJD_inst_advice == 2)
+qui count if AJD_noadvice_reason==. & AJD_inst_advice == 2
+if r(N) > 0 {
+	di as error "AJD_noadvice_reason: check the NO-SKIP rule"
+}
+
 qui inspect AJD_noadvice_reason
 local a = r(N)
 qui count if AJD_inst_advice == 2
 local b = r(N)
-
 if `a' != `b' {
 	di as error "AJD_inst_advice: check the NO-SKIP rule"
-}
+	}
 
 *------ (e) Is everyone answering who answered AJD_inst_advice answering AJR_resolution?
+di as result "Check in the tab that the missing observations match for both variables"
+tab AJR_resolution AJD_inst_advice, m
+
+**NRC: remove 
 qui inspect AJR_resolution
 local a = r(N)
 qui inspect AJD_inst_advice
@@ -314,12 +342,11 @@ if `a' != `b' {
 	di as error "AJD_inst_advice: check the NO-SKIP rule"
 }
 
-
 *--- AJD_adviser_1 (q21_1)
 *------ (a) We test the SKIP rule -- No need for testing the NO-SKIP
 qui inspect AJD_expert_adviser if AJD_adviser_1 != 1
 if r(N) > 0 {
-	di as error "AJD_adviser_1: " r(N) " obs with incorrect routing (skip)"
+	di as error "AJD_expert_adviser: " r(N) " obs with incorrect routing (skip)"
 }
 
 
@@ -327,7 +354,7 @@ if r(N) > 0 {
 *------ (a) We test the SKIP rule -- No need for testing the NO-SKIP
 qui inspect AJD_noadvice_reason if AJD_expert_adviser != .
 if r(N) > 0 {
-	di as error "AJD_expert_adviser: " r(N) " obs with incorrect routing (skip)"
+	di as error "AJD_noadvice_reason: " r(N) " obs with incorrect routing (skip)"
 }
 
 
@@ -336,34 +363,67 @@ if r(N) > 0 {
 *------ (a) We test the SKIP rule
 qui inspect AJR_noresol_reason if AJR_resolution == 98 | AJR_resolution == 99
 if r(N) > 0 {
-	di as error "AJR_resolution: " r(N) " obs with incorrect routing (skip x > 2)"
+	di as error "AJR_noresol_reason: " r(N) " obs with incorrect routing (skip x > 2)"
 }
+
 foreach x of varlist AJR_noresol_reason AJR_state_noresol AJR_settle_noresol {
 	qui inspect `x' if AJR_resolution == 1
 	if r(N) > 0 {
-		di as error "AJR_resolution: " r(N) " obs with incorrect routing (skip x == 1)"
+		di as error "AJR_noresol_reason: " r(N) " obs with incorrect routing (skip x == 1)"
+	}
+}
+
+local qset "court police office relig arbitration appeal other"
+foreach x in `qset' {
+	qui inspect AJR_`x'_bin if AJR_resolution!=1
+	if r(N) > 0 {
+		di as error "AJR_`x'_contact:" r(N) " obs with incorrect routing (skip)"
 	}
 }
 
 *------ (b) We test the NO-SKIP rule
+qui count if AJR_noresol_reason==. & AJR_resolution == 2
+if r(N) > 0 {
+	di as error "AJR_resolution: check the NO-SKIP rule"
+}		
+
+**NRC: both checks should be included
 qui inspect AJR_noresol_reason
 local a = r(N)
 qui count if AJR_resolution == 2
 local b = r(N)
-
 if `a' != `b' {
-	di as error "AJR_resolution: check the NO-SKIP rule"
+	di as error "AJR_noresol_reason: check the NO-SKIP rule"
 }		// People answering AJR_noresol_reason should be equal to AJR_resolution == 2
+
+qui count if AJR_state_noresol==. & AJR_resolution!=1 & AJR_resolution!=.
+if r(N)>0 {
+	di as error "AJR_state_noresol: check the NO-SKIP rule"
+}	
 
 qui inspect AJR_state_noresol
 local a = r(N)
 qui count if inlist(AJR_resolution, 2, 98, 99)
 local b = r(N)
-
 if `a' != `b' {
-	di as error "AJR_resolution: check the NO-SKIP rule"
+	di as error "AJR_state_noresol: check the NO-SKIP rule"
 }		// People answering AJR_state_noresol should be equal to AJR_resolution == 2 | 98 | 99
 
+local qset "court police office relig arbitration appeal other"
+foreach x in `qset' {
+	qui count if AJR_`x'_bin==. & AJR_resolution==1
+	if r(N)>0 {
+		di as error "AJR_`x'_bin: check the NO-SKIP rule"
+	}
+	
+	qui inspect AJR_`x'_bin
+	local a = r(N)
+	qui count if AJR_resolution==1
+	local b = r(N)
+		if `a' != `b'  {
+		di as error "AJR_`x'_bin: check the NO-SKIP rule"
+		}
+}
 
 *--- AJR_state_noresol (q26)
 
@@ -377,21 +437,25 @@ foreach x of varlist AJR_settle_noresol AJR_court_bin AJR_court_contact AJR_poli
 		di as result "Testing the routing rules in `x'"
 		qui inspect `x' if inlist(AJR_state_noresol, 1, 2, 98, 99)
 		if r(N) > 0 {
-			di as error "AJR_state_noresol: " r(N) " obs with incorrect routing (skip)"
+			di as error "`x': " r(N) " obs with incorrect routing (skip)"
 		}
 	}
 
 qui inspect AJR_satis_ongoing if inlist(AJR_state_noresol, 98, 99)
 if r(N) > 0 {
-	di as error "AJR_state_noresol: " r(N) " obs with incorrect routing (skip)"
+	di as error "AJR_satis_ongoing: " r(N) " obs with incorrect routing (skip)"
 } // Additional skipped variable for AJR_state_noresol == 98 | 99
 
 *------ (b) We test the NO-SKIP rule
+qui count if AJR_settle_noresol==. & (AJR_state_noresol==3 | AJR_state_noresol==4)
+if r(N)>0 {
+	di as error "AJR_settle_noresol: check the NO-SKIP rule"
+}
+
 qui inspect AJR_settle_noresol
 local a = r(N)
 qui count if inlist(AJR_state_noresol, 3, 4)
 local b = r(N)
-
 if `a' != `b' {
 	di as error "AJR_state_noresol: check the NO-SKIP rule"
 }		// People answering AJR_settle_noresol should be equal to AJR_state_noresol == 3 | 4
@@ -404,7 +468,7 @@ foreach x in court police office relig arbitration appeal other {
 	qui inspect AJR_`x'_bin if AJR_settle_noresol != .
 	di as result "Testing the routing rules in AJR_`x'_bin"
 	if r(N) > 0 {
-		di as error "AJR_settle_noresol: " r(N) " obs with incorrect routing (skip)"
+		di as error "AJR_`x'_bin: " r(N) " obs with incorrect routing (skip)"
 	}
 }
 
@@ -422,6 +486,11 @@ foreach x in `qset' {
 	}
 	
 	*--- We test the no-skip rule 
+	qui count if AJR_`x'_contact==. & AJR_`x'_bin == 1
+	if r(N)>0 {
+		di as error "AJR_`x'_contact: check the NO-SKIP rule"
+	}
+	
 	qui inspect AJR_`x'_contact
 	local a = r(N)
 	qui count if AJR_`x'_bin == 1
@@ -451,13 +520,17 @@ if r(N) > 0 {
 } // Additional skipped variable for AJR_state_resol == 98 | 99
 
 *------ (b) We test the NO-SKIP rule
+qui count if AJR_settle_resol==. & (AJR_state_resol==3 | AJR_state_resol==4)
+if r(N) > 0 {
+	di as error "AJR_settle_resol: check the NO-SKIP rule"
+}
+
 qui inspect AJR_settle_resol
 local a = r(N)
 qui count if inlist(AJR_state_resol, 3, 4)
 local b = r(N)
-
 if `a' != `b' {
-	di as error "AJR_state_noresol: check the NO-SKIP rule"
+	di as error "AJR_settle_resol: check the NO-SKIP rule"
 }		// People answering AJR_resol_reason should be equal to AJR_resolution == 2
 
 
@@ -466,19 +539,22 @@ if `a' != `b' {
 *------ (a) We test the SKIP rule
 qui inspect AJR_costdiff if AJR_solvingcosts != 1
 if r(N) > 0 {
-	di as error "AJR_solvingcosts: " r(N) " obs with incorrect routing (skip)"
+	di as error "AJR_costdiff: " r(N) " obs with incorrect routing (skip)"
 }
 
 *------ (b) We test the NO-SKIP rule
+qui count if AJR_costdiff==. & AJR_solvingcosts == 1
+if r(N) > 0 {
+	di as error "AJR_solvingcosts: check the NO-SKIP rule"
+}
+
 qui inspect AJR_costdiff
 local a = r(N)
 qui count if AJR_solvingcosts == 1
 local b = r(N)
-
 if `a' != `b' {
 	di as error "AJR_solvingcosts: check the NO-SKIP rule"
 }
-
 
 *--- AJR_satis_outcome (q34)
 
@@ -490,12 +566,11 @@ if r(N) > 0 {
 
 
 *--- AJE_offwork_time - AJE_hospital_time (q38e-q38h_1)
-local c = 1
-local qset "health emotional income drugs offwork_time"
+local qset "health emotional income drugs"
 foreach x in `qset' {
-	g aux_`c' = (AJE_`x' == 1)
-	local ++c
+	recode AJE_`x' (1 = 1)(2 98 99 = .), g(aux_`x')
 }
+
 egen aux_t = rowtotal(aux_*)	// We use this auxiliar variable to test the 
 								// AJE_offwork_time - AJE_hospital_time set
 
@@ -515,15 +590,19 @@ drop aux_*
 *------ (a) We test the SKIP rule
 qui inspect AJE_healthcare_visits if AJE_healthcare != 1
 if r(N) > 0 {
-	di as error "AJE_healthcare: " r(N) " obs with incorrect routing (skip)"
+	di as error "AJE_healthcare_visits: " r(N) " obs with incorrect routing (skip)"
 }
 
 *------ (b) We test the NO-SKIP rule
+qui count if AJE_healthcare_visits==. & AJE_healthcare == 1
+if r(N)> 0 {
+	di as error "AJE_healthcare: check the NO-SKIP rule"
+}
+
 qui inspect AJE_healthcare_visits
 local a = r(N)
 qui count if AJE_healthcare == 1
 local b = r(N)
-
 if `a' != `b' {
 	di as error "AJE_healthcare: check the NO-SKIP rule"
 }
@@ -534,15 +613,19 @@ if `a' != `b' {
 *------ (a) We test the SKIP rule
 qui inspect AJE_hospital_time if AJE_hospital != 1
 if r(N) > 0 {
-	di as error "AJE_hospital: " r(N) " obs with incorrect routing (skip)"
+	di as error "AJE_hospital_time: " r(N) " obs with incorrect routing (skip)"
 }
 
 *------ (b) We test the NO-SKIP rule
+qui count if AJE_hospital_time==. & AJE_hospital == 1
+if r(N) > 0 {
+	di as error "AJE_hospital_time: check the NO-SKIP rule"
+}
+
 qui inspect AJE_hospital_time
 local a = r(N)
 qui count if AJE_hospital == 1
 local b = r(N)
-
 if `a' != `b' {
 	di as error "AJE_hospital: check the NO-SKIP rule"
 }
