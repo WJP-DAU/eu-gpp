@@ -155,10 +155,16 @@ recode q13`x' (1 = 1)(2 98 99 = .), g(aux_q13_`x')
 egen d_total=rowtotal(aux_q13_*)
 
 forvalues i=1/12 {
-replace q14_`i'=0 if q14_`i'==. & d_total>0
+replace q14_`i'=2 if q14_`i'==. & d_total>0
 }
 
 drop aux_q13* d_total
+
+forvalues i=1/9 {
+replace q21_`i'=2 if q21_`i'==. & q20==1
+}
+
+
 
 /*=================================================================================================================
 					Comments on the quality checks
