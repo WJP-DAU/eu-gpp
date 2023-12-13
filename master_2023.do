@@ -21,7 +21,7 @@ cls
 *--- Parameters:
 
 *------ (a) For which country are we going to run this do-file?
-global country_name "Malta"
+global country_name "Bulgaria"
 
 *------ (b) What data stage is this?
 			// Pretest: 		Please input "1. PTR"
@@ -32,7 +32,7 @@ global dataStage "1. PTR"
 global year 2023
 
 *------ (c) Original file name
-global dataName "WORLD JUSTICE PROJECT General Population Poll 2023 - Pilot data.sav"	
+global dataName "Bulgaria_PRT_20231213.sav"	
 
 /*	IMPORTANT:
 	 Please confirm with the GPP team that this is INDEED the latest data file submitted by the polling company.
@@ -54,67 +54,41 @@ version 15
 *--- Required packages:
 * NONE
 
-*--- Defining paths to SharePoint:
+*--- Defining paths to SharePoint & your local Git Repo copy:
 
 *------ (a) Carlos Toruno:
 if (inlist("`c(username)'", "ctoruno")) {
 	global path2SP "/Users/ctoruno/OneDrive - World Justice Project/EU Subnational"
+	global path2GH "/Users/ctoruno/OneDrive - World Justice Project/EU Subnational/EU-S Data"
 }
 
 *------ (b) Santiago Pardo:
 else if (inlist("`c(username)'", "santiagopardo")) {
 	global path2SP "/Users/santiagopardo/OneDrive - World Justice Project/EU Subnational"
+	global path2GH ""
 }
 
 *------ (b) Natalia Rodriguez:
 else if (inlist("`c(username)'", "nrodriguez")) {
 	global path2SP "C:\Users\nrodriguez\OneDrive - World Justice Project\Programmatic\EU Subnational"
-}
-
-*------ (c) Dalia Habiby:
-else if (inlist("`c(username)'", "Dhabiby")) {
-	global path2SP "Users/Dhabiby/World Justice Project/Research - EU Subnational"
-}
-
-*------ (d) Artha Pillai:
-else if (inlist("`c(username)'", "apillai")) {
-	global path2SP "/Users/apillai/OneDrive - World Justice Project/EU Subnational"
-}
-
-*------ (e) Any other user: PLEASE INPUT YOUR PERSONAL PATH TO THE SHAREPOINT DIRECTORY:
-else {
-	global path2SP "INSERT_PATH_TO_EU_SUBNATIONAL_SHARE_POINT_HERE"
-}
-
-*--- Defining paths to GitHub:
-
-*------ (a) Carlos Toruno:
-if (inlist("`c(username)'", "ctoruno")) {
-	global path2GH ""
-}
-
-*------ (b) Santiago Pardo:
-else if (inlist("`c(username)'", "santiagopardo")) {
-	global path2GH ""
-}
-
-*------ (b) Natalia Rodriguez:
-else if (inlist("`c(username)'", "nrodriguez")) {
 	global path2GH "C:\Users\nrodriguez\OneDrive - World Justice Project\Natalia\GitHub"
 }
 
 *------ (c) Dalia Habiby:
 else if (inlist("`c(username)'", "Dhabiby")) {
+	global path2SP "Users/Dhabiby/World Justice Project/Research - EU Subnational"
 	global path2GH ""
 }
 
 *------ (d) Artha Pillai:
 else if (inlist("`c(username)'", "apillai")) {
+	global path2SP "/Users/apillai/OneDrive - World Justice Project/EU Subnational"
 	global path2GH ""
 }
 
 *------ (e) Any other user: PLEASE INPUT YOUR PERSONAL PATH TO THE SHAREPOINT DIRECTORY:
 else {
+	global path2SP "INSERT_PATH_TO_EU_SUBNATIONAL_SHARE_POINT_HERE"
 	global path2GH "INSERT_PATH_TO_EU_SUBNATIONAL_SHARE_POINT_HERE"
 }
 
@@ -167,6 +141,9 @@ log close
 	variables (Step 2)
 */
 do "${path2wr}/Country-Wrangling/${dataStage}/${country_name}_wrangling${year}.do"
+
+*--- Saving a testing dta file for automatically checking value labels using the EU-Copilot app:
+// save "${path2data}/${dataStage}/${country_name}/0. Raw Data/${country_name}_testdta.dta", replace
 
 *--- Do all variables fall within the expected range?  (Step 2)
 cls

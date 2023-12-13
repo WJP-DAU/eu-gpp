@@ -33,6 +33,9 @@ protocol guidelines and use the interactive codebook tool.
 		of the country. Which is not necessarilly the same as the NUTS division. For example, in Greece, there
 		are 13 admin regions, which are equivalent to the NUTS 2. However, nuts_ltn and nuts_id are at the
 		NUTS 1 level according to the sampling plan. So, be careful. If you don't know, ask.
+		
+		NOTE FOR CARLOS: THIS IS THE COMMAND YOU ALWAYS FORGET:
+			numlabel, add
 */
 
 
@@ -90,10 +93,14 @@ rename Politics politics
 *--- Vote Intention & Incumbent Political Party:
 * recode paff2 (x=y)		// Recode following the Party Coding Units from the V-Party Dataset
 * g incpp = (paff2 == xx) if paff2 != .
+g incpp = . 
+	// Alway gen an empty vector for the PRETEST!!!
 
 *--- Ethnicity groups:
 * recode ethni (x=y)	 	// Recode following the European Standard Classification of Cultural and Ethnic Groups
 * recode ethni (x=1)(y=2)(z=3)(98/99 = .), g(ethni_groups)
+g ethni_groups = . 
+	// Alway gen an empty vector for the PRETEST!!!
 
 
 /*=================================================================================================================
@@ -115,6 +122,6 @@ rename Politics politics
 =================================================================================================================*/
 
 /* Note:
-	Please save the country wrangle routines within the EU-S DATA / GPP / 2. Code / Country-Wrangling folder
-	in the SharePoint.
+	Please save the country wrangle routines within the "2. Code/Country-Wrangling/" folder
+	in your local copy of the repository.
 *

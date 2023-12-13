@@ -117,6 +117,6 @@ drop aux_*
 =================================================================================================================*/
 
 /* Note:
-	Please save the country wrangle routines within the EU-S DATA / GPP / 2. Code / Country-Wrangling folder
-	in the SharePoint.
+	Please save the country wrangle routines within the "2. Code/Country-Wrangling/" folder
+	in your local copy of the repository.
 *

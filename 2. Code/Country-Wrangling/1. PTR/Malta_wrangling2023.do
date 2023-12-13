@@ -1,12 +1,12 @@
 /*=================================================================================================================
 Project:		EU Subnational 2023
-Routine:		GPP Data Cleaning and Harmonization 2023 (COUNTRY - Pretest)
+Routine:		GPP Data Cleaning and Harmonization 2023 (Malta - Pretest)
 Author(s):		Carlos Toruño 		(ctoruno@worldjusticeproject.org)
 Dependencies:  	World Justice Project
 Creation Date:	October, 2023
 
 Description:
-Data wrangling cleaning and harmonization routine for the COUNRTY_NAME pretest data received on DD/MM/YYYY.
+Data wrangling cleaning and harmonization routine for the COUNRTY_NAME pretest data received on 05/12/2023.
 
 This dofile follows the guidelines in the GPP Cleaning and Validation Protol for the EU-S Project. Please feel 
 free to use the EU Copilot app (https://eu-copilot.streamlit.app/) to support your routine writing, consult the
@@ -178,6 +178,6 @@ replace q21_`i'=2 if q21_`i'==. & q20==1
 =================================================================================================================*/
 
 /* Note:
-	Please save the country wrangle routines within the EU-S DATA / GPP / 2. Code / Country-Wrangling folder
-	in the SharePoint.
+	Please save the country wrangle routines within the "2. Code/Country-Wrangling/" folder
+	in your local copy of the repository.
 *
