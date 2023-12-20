@@ -143,7 +143,7 @@ log close
 do "${path2wr}/Country-Wrangling/${dataStage}/${country_name}_wrangling${year}.do"
 
 *--- Saving a testing dta file for automatically checking value labels using the EU-Copilot app:
-// save "${path2data}/${dataStage}/${country_name}/0. Raw Data/${country_name}_testdta.dta", replace
+save "${path2data}/${dataStage}/${country_name}/0. Raw Data/${country_name}_test.dta", replace
 
 *--- Do all variables fall within the expected range?  (Step 2)
 cls
