@@ -21,7 +21,7 @@ cls
 *--- Parameters:
 
 *------ (a) For which country are we going to run this do-file?
-global country_name "Bulgaria"
+global country_name "Ireland"
 
 *------ (b) What data stage is this?
 			// Pretest: 		Please input "1. PTR"
@@ -32,7 +32,7 @@ global dataStage "1. PTR"
 global year 2023
 
 *------ (c) Original file name
-global dataName "Bulgaria_PRT_20231213.sav"	
+global dataName "Ireland_PRT_20231220.sav"	
 
 /*	IMPORTANT:
 	 Please confirm with the GPP team that this is INDEED the latest data file submitted by the polling company.
@@ -76,8 +76,8 @@ else if (inlist("`c(username)'", "nrodriguez")) {
 
 *------ (c) Dalia Habiby:
 else if (inlist("`c(username)'", "Dhabiby")) {
-	global path2SP "Users/Dhabiby/World Justice Project/Research - EU Subnational"
-	global path2GH ""
+	global path2SP "/Users/Dhabiby/World Justice Project/Research - EU Subnational"
+	global path2GH "/Users/Dhabiby/Documents/GitHub"
 }
 
 *------ (d) Artha Pillai:
