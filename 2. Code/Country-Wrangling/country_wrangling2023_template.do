@@ -33,6 +33,7 @@ protocol guidelines and use the interactive codebook tool.
 		of the country. Which is not necessarilly the same as the NUTS division. For example, in Greece, there
 		are 13 admin regions, which are equivalent to the NUTS 2. However, nuts_ltn and nuts_id are at the
 		NUTS 1 level according to the sampling plan. So, be careful. If you don't know, ask.
+		TIP: Check the pretest report form to check the names and distributions of "nuts_ltn" and "nuts_id"
 		Please check that the whole sample has values for income. Even if someone refuses to answer it or to take this question, it should be flagged in this variable. 
 		Always make sure that the income quintiles are ordered from lowest to highest. If there are more than 5 quintiles, please group them.
 		NOTE FOR CARLOS: THIS IS THE COMMAND YOU ALWAYS FORGET:
