@@ -332,7 +332,6 @@ if `a' != `b' {
 di as result "Check in the tab that the missing observations match for both variables"
 tab AJR_resolution AJD_inst_advice, m
 
-**NRC: remove 
 qui inspect AJR_resolution
 local a = r(N)
 qui inspect AJD_inst_advice
@@ -387,7 +386,6 @@ if r(N) > 0 {
 	di as error "AJR_resolution: check the NO-SKIP rule"
 }		
 
-**NRC: both checks should be included
 qui inspect AJR_noresol_reason
 local a = r(N)
 qui count if AJR_resolution == 2
