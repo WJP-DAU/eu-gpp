@@ -815,6 +815,7 @@ count
 local t = r(N) 
 
 *--- Generating values to test balance
+di as result "The values in the tab correspond to the % of people who answered q60_G1, q60_G2 and q60_G3"
 tab b_RLA b_RLB, cell nofreq matcell(mat_RL1)
 local a = mat_RL1[2,1] / `t'
 local b = mat_RL1[1,2] / `t'
