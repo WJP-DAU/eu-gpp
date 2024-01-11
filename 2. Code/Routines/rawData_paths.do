@@ -23,7 +23,7 @@ if inlist("${country_name}", "Bulgaria") {
 	global company "Alpha Research (BL)"
 	global multi "NO"
 }
-if inlist("${country_name}", "Austria", "Belgium", "Denmark", "Germany", "Italy", "Netherlands", "Bilendi & Respondi (AT, BE, DE, GE, NE, IT)") {
+if inlist("${country_name}", "Austria", "Belgium", "Denmark", "Germany", "Italy", "Netherlands", "0_Bilendi") {
 	global company "Bilendi & Respondi (AT, BE, DE, GE, NE, IT)"
 	global multi "YES"
 }
