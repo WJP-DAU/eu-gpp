@@ -21,7 +21,9 @@ cls
 *--- Parameters:
 
 *------ (a) For which country are we going to run this do-file?
-global country_name "Lithuania"
+			// Special naming for the following companies: 
+			//		- Bilendi, write "0_Bilendi" as country_name
+global country_name "0_Bilendi"
 
 *------ (b) What data stage is this?
 			// Pretest: 		Please input "1. PTR"
@@ -29,13 +31,16 @@ global country_name "Lithuania"
 global dataStage "1. PTR"
 
 *------ (c) Year
-global year 2023
+global year 2024
 
 *------ (c) Original file name
-global dataName "Pre-test_50 int_Lithuania_2023.sav"	
+global dataName "Bilendi_PRT_20240111.sav"	
 
 /*	IMPORTANT:
-	 Please confirm with the GPP team that this is INDEED the latest data file submitted by the polling company.
+	 1. Please confirm with the GPP team that this is INDEED the latest data file submitted by the polling company.
+	 2. Polling compnaies collecting data in multiple countries might send a consolidated dataset with all
+	 countries together. For EVERY issue found. Evaluate if the issue is present across ALL countries or ONLY in
+	 specific countries. You will have to check for this in the console directly.
 
 	Notes:
 	 Please make sure the following tasks from the EU-GPP cleaning and validation protocol have already 
@@ -111,7 +116,7 @@ global dtaFile = ustrregexrf("${dataName}", "\..+", ".dta")
 *--- Loading paths to the data files submitted by the polling companies
 do "${path2dos}/Routines/rawData_paths.do"
 
-*--- Reading the data into STATA and saving the original raw dataset
+*--- Reading the data into STATA
 if (inlist("`c(username)'", "nrodriguez")) {
 	usespss "${RD_path}/${dataName}", clear
 }
@@ -119,10 +124,17 @@ else {
 	import spss using "${RD_path}/${dataName}", clear
 }
 
+*--- Saving the DTA file
 save "${path2data}/${dataStage}/${country_name}/0. Raw Data/${dtaFile}", replace
 
 /* Note:
-	Please make sure that the character encodings are UTF-8 (STEP 1). See the step_1.do file.
+	1. Please make sure that the character encodings are UTF-8 (STEP 1). See the step_1.do file.
+*/
+
+/* Note:
+	For some polling companies such as Bilendi, we are splitting the raw data per country but this is just
+	to keep the original data bases per country. For consistency. However, you will continue working with
+	the consolidated dataset.
 */
 
 *--- Creating CODEBOOK log file:
@@ -153,12 +165,15 @@ do "${path2dos}/Routines/range_checks.do"
 	Search for RED ERROR messages in the console after running the range checks.
 */
 
-*--- Drop obvious vars
-drop country year id
-
 *--- Adding Country General Information
-g country_name_ltn = "${country_name}"
-g year = $year
+if (inlist("${country_name}", "0_Bilendi")){
+	decode country, g(country_name_ltn)
+}
+else {
+	g country_name_ltn = "${country_name}"
+}
+drop country year id
+g year = ${year}
 g id = _n
 merge m:1 country_name_ltn using "${path2meta}/general_info.dta", nogen keep(match) ///
 	keepusing(country_name_off country_name_lt country_code_nuts country_code_iso method income_group)
@@ -253,7 +268,18 @@ do "${path2dos}/Routines/val_labels.do"
 					Saving Clean Data
 =================================================================================================================*/
 
-save "${path2data}/${dataStage}/${country_name}/1. Clean Data/${country_name}_clean.dta", replace
+*--- Split data into individual countries and saving the data
+if (inlist("${country_name}", "0_Bilendi")){
+	foreach x in Austria Belgium Denmark Germany Italy Netherlands {
+		preserve
+		keep if country_name_ltn == "`x'"
+		save "${path2data}/${dataStage}/`x'/1. Clean Data/`x'_clean.dta", replace
+		restore
+	}
+}
+else {
+	save "${path2data}/${dataStage}/${country_name}/1. Clean Data/${country_name}_clean.dta", replace
+}
 
 
 /*=================================================================================================================

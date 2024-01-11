@@ -23,7 +23,7 @@ if inlist("${country_name}", "Bulgaria") {
 	global company "Alpha Research (BL)"
 	global multi "NO"
 }
-if inlist("${country_name}", "Austria", "Belgium", "Denmark", "Germany", "Italy", "Netherlands") {
+if inlist("${country_name}", "Austria", "Belgium", "Denmark", "Germany", "Italy", "Netherlands", "Bilendi & Respondi (AT, BE, DE, GE, NE, IT)") {
 	global company "Bilendi & Respondi (AT, BE, DE, GE, NE, IT)"
 	global multi "YES"
 }
@@ -70,7 +70,10 @@ if inlist("${dataStage}", "2. FFW") {
 
 
 *--- RAW DATA PATH
-if inlist("${multi}", "YES") {
+if inlist("${country_name}", "0_Bilendi") {
+	global RD_path "${path2SP}/EU Subnational GPP/Polling Companies/${company}/05. Pretest Data/Original"
+}
+else if inlist("${multi}", "YES") {
 	global RD_path "${path2SP}/EU Subnational GPP/Polling Companies/${company}/${country_name}/${path_aux}/Original"
 }
 else {
