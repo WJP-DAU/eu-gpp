@@ -146,7 +146,9 @@ if r(N) > 0 {
 	if r(N) > 0 {
 		di as error r(N) " individual(s) have a high difficulty score."
 	}
+	
+	drop difficulty_score
 }
 
-drop *_norm difficulty_score
+drop *_norm
 
