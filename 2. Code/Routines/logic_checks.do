@@ -97,12 +97,12 @@ local qset A1 A2 A3 B1 B2 B3 B4 C1 C2 C3 C4 D1 D2 D3 D4 D5 D6 E1 E2 E3 F1 ///
 *------(a) Did the person mentioned any problem with high severity?
 g highseverity = 0
 foreach x in `qset'  {
-	replace highseverity = 1 if AJP_`x'_sev >= 4 & AJP_`x'_sev != .
+	replace highseverity = 1 if AJP_`x'_sev >= 4 & AJP_`x'_sev <98 & AJP_`x'_sev != . 
 }
 
 *------ (b) Is Problem X elegible for this person?
 foreach x in `qset'  {
-	g elegible_`x' = (AJP_`x'_sev >= 4 & AJP_`x'_sev != .)
+	g elegible_`x' = (AJP_`x'_sev >= 4 & AJP_`x'_sev <98 & AJP_`x'_sev != . )
 	replace elegible_`x' = 1 if AJP_`x'_sev != . & highseverity == 0
 }
 
