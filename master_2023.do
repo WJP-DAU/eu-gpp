@@ -23,7 +23,7 @@ cls
 *------ (a) For which country are we going to run this do-file?
 			// Special naming for the following companies: 
 			//		- Bilendi, write "0_Bilendi" as country_name
-global country_name "0_Bilendi"
+global country_name "Hungary"
 
 *------ (b) What data stage is this?
 			// Pretest: 		Please input "1. PTR"
@@ -34,7 +34,7 @@ global dataStage "1. PTR"
 global year 2024
 
 *------ (c) Original file name
-global dataName "Bilendi_PRT_20240111.sav"	
+global dataName "Hungary_PRT_20240116.sav"	
 
 /*	IMPORTANT:
 	 1. Please confirm with the GPP team that this is INDEED the latest data file submitted by the polling company.
@@ -70,7 +70,7 @@ if (inlist("`c(username)'", "ctoruno")) {
 *------ (b) Santiago Pardo:
 else if (inlist("`c(username)'", "santiagopardo")) {
 	global path2SP "/Users/santiagopardo/OneDrive - World Justice Project/EU Subnational"
-	global path2GH ""
+	global path2GH "/Users/santiagopardo/Documents/GitHub"
 }
 
 *------ (b) Natalia Rodriguez:
@@ -166,7 +166,7 @@ do "${path2dos}/Routines/range_checks.do"
 */
 
 *--- Adding Country General Information
-if (inlist("${country_name}", "0_Bilendi")){
+if (inlist("${country_name}", "Hungay")){
 	decode country, g(country_name_ltn)
 }
 else {
