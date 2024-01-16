@@ -42,16 +42,14 @@ egen DKNA = anycount(	TRT_* ATC_* COR_* BRB_* IPR_* IRE_* SEC_* DIS_* ///
 						AJD_* AJR_* AJE_* ///
 						CPA_* CPB_* LEP_* CJP_* CTZ_* PAB_* JSE_* ROL_*), values(98 99)
 
-//NRC: 10 questions with DKNA is too low of a threshold. Suggest changing it to 30
 *--- Overall count
 qui inspect DKNA if DKNA > 30
 if r(N) > 0 {
 	di as error r(N) " obs have more than 30 DK/NA values in the target variables."
 }
 
-//NRC: Same as above
 *--- Disaggregated count
-recode DKNA (0/10 = 0 "Low incidence")(11/max = 1 "High Incidence"), g(DKNA_bin)
+recode DKNA (0/30 = 0 "Low incidence")(31/max = 1 "High Incidence"), g(DKNA_bin)
 foreach x of varlist gend age_groups relig ethni income_quintile edu {
 	tab DKNA_bin `x', row
 }
