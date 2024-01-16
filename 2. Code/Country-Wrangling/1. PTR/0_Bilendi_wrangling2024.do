@@ -67,27 +67,50 @@ replace nuts_ltn="Centro (IT)" if nuts_ltn=="Centro"
 					Adding missing variables from the data map
 =================================================================================================================*/
 
-*Austria - regions
+rename country country1
+decode country, g(country)
+drop country1
 
+g year = .
 
-g city = .
-g region =
-g urban = .
+***City - includes municipalities
+g City =""
 
+replace City=LAU_AUT if country=="Austria"
+replace City=LAU_GER if country=="Germany"
+replace City=LAU_NLD if country=="Netherlands"
+replace City=LAU_DNK if country=="Denmark"
+replace City=LAU_BEL if country=="Belgium"
+replace City=LAU_ITA if country=="Italy"
 
-g year =2024
-g q60_g1_98 = .
-g q60_g1_99 = .
-g q60_g2_98 = .
-g q60_g2_99 = .
-g q60_g3_98 = .
-g q60_g3_99 = .
+***Region
+g Region =""
 
-g psu = .
-g ssu = .
-g b1 = .
-g b2 = .
-g b3 = .
+replace Region=VAR_NUTS2TEXT_AUT if country=="Austria"
+replace Region=VAR_NUTS1TEXT_GER if country=="Germany"
+replace Region=VAR_NUTS2TEXT_NLD if country=="Netherlands"
+replace Region=VAR_NUTS2TEXT_DNK if country=="Denmark"
+replace Region="Sjaelland" if Region=="Sjælland"
+replace Region=VAR_NUTS2TEXT_BEL if country=="Belgium"
+replace Region=VAR_NUTS2TEXT_ITA if country=="Italy"
+
+***Urban
+g Urban = DEGURBA
+recode Urban (1 2=1) (3=2)
+
+***Missing variables
+
+g q60_G1_98 = .
+g q60_G1_99 = .
+g q60_G2_98 = .
+g q60_G2_99 = .
+g q60_G3_98 = .
+g q60_G3_99 = .
+g PSU = .
+g SSU = .
+g B1 = .
+g B2 = .
+g B3 = .
 g qpi1 = .
 g qpi2a = .
 g qpi2b = .
@@ -99,15 +122,15 @@ g qpi3a = .
 g qpi3b = .
 g qpi3c = .
 g qpi3d = .
-g color = .
+g COLOR = .
 g dweight = .
-g strata = .
+g Strata = .
 
 /*=================================================================================================================
 					Dropping variables added by the polling company
 =================================================================================================================*/
 
-*drop id0 id1 record uuid date status sample_flag total_country_sample survey_language intro rec_genquo age_rec incom2 incom3 incom0 incom1 nuts1_aut var_nuts1_aut var_n1y var_n1z var_nuts1text_aut var_n1w var_n1x nuts2_aut var_nuts2_aut var_n1u var_n1v var_nuts2text_aut var_n1s var_n1t nuts3_aut var_nuts3_aut var_n1q var_n1r var_nuts3text_aut var_n1o var_n1p lau_aut lau_a0 lau_a1 var_laucode_aut var_la var_lb var_degurba_aut var_da var_db nuts1_ger var_nuts1_ger var_n1m var_n1n var_nuts1text_ger var_n1k var_n1l nuts2_ger var_nuts2_ger var_n1i var_n1j var_nuts2text_ger var_n1g var_n1h nuts3_ger var_nuts3_ger var_n1e var_n1f var_nuts3text_ger var_n1c var_n1d lau_ger lau_g0 lau_g1 var_laucode_ger var_l8 var_l9 var_degurba_ger var_d8 var_d9 nuts1_nld var_nuts1_nld var_n1a var_n1b var_nuts1text_nld var_n18 var_n19 nuts2_nld var_nuts2_nld var_n16 var_n17 var_nuts2text_nld var_n14 var_n15 nuts3_nld var_nuts3_nld var_n12 var_n13 var_nuts3text_nld var_n10 var_n11 lau_nld lau_n0 lau_n1 var_laucode_nld var_l6 var_l7 var_degurba_nld var_d6 var_d7 nuts1_dnk var_nuts1_dnk var_ny var_nz var_nuts1text_dnk var_nw var_nx nuts2_dnk var_nuts2_dnk var_nu var_nv var_nuts2text_dnk var_ns var_nt nuts3_dnk var_nuts3_dnk var_nq var_nr var_nuts3text_dnk var_no var_np lau_dnk lau_d0 lau_d1 var_laucode_dnk var_l4 var_l5 var_degurba_dnk var_d4 var_d5 nuts1_bel var_nuts1_bel var_nm var_nn var_nuts1text_bel var_nk var_nl nuts2_bel var_nuts2_bel var_ni var_nj var_nuts2text_bel var_ng var_nh nuts3_bel var_nuts3_bel var_ne var_nf var_nuts3text_bel var_nc var_nd lau_bel lau_b0 lau_b1 var_laucode_bel var_l2 var_l3 var_degurba_bel var_d2 var_d3 nuts1_ita var_nuts1_ita var_na var_nb var_nuts1text_ita var_n8 var_n9 nuts2_ita var_nuts2_ita var_n6 var_n7 var_nuts2text_ita var_n4 var_n5 nuts3_ita var_nuts3_ita var_n2 var_n3 var_nuts3text_ita var_n0 var_n1 lau_ita lau_i0 lau_i1 var_laucode_ita var_l0 var_l1 var_degurba_ita var_d0 var_d1 degurba rec_quoq17a1 rec_quoq17a2 rec_quoq17a3 rec_quoq17b1 rec_quoq17b2 rec_quoq17b3 rec_quoq17b4 rec_quoq17c1 rec_quoq17c2 rec_quoq17c3 rec_quoq17c4 rec_quoq17d1 rec_quoq17d2 rec_quoq17d3 rec_quoq17d4 rec_quoq17d5 rec_quoq17d6 rec_quoq17e1 rec_quoq17e2 rec_quoq17e3 rec_quoq17f1 rec_quoq17f2 rec_quoq17g1 rec_quoq17g2 rec_quoq17g3 rec_quoq17h1 rec_quoq17h2 rec_quoq17h3 rec_quoq17i1 rec_quoq17j1 rec_quoq17j2 rec_quoq17j3 rec_quoq17j4 rec_quoq17k1 rec_quoq17k2 rec_quoq17k3 rec_quoq17l1 rec_quoq17l2 rec_quofina1 rec_quofina2 rec_quofina3 rec_quofinb1 rec_quofinb2 rec_quofinb3 rec_quofinb4 rec_quofinc1 rec_quofinc2 rec_quofinc3 rec_quofinc4 rec_quofind1 rec_quofind2 rec_quofind3 rec_quofind4 rec_quofind5 rec_quofind6 rec_quofine1 rec_quofine2 rec_quofine3 rec_quofinf1 rec_quofinf2 rec_quofing1 rec_quofing2 rec_quofing3 rec_quofinh1 rec_quofinh2 rec_quofinh3 rec_quofini1 rec_quofinj1 rec_quofinj2 rec_quofinj3 rec_quofinj4 rec_quofink1 rec_quofink2 rec_quofink3 rec_quofinl1 rec_quofinl2 q170 q171 random_alloc_sec7 random_alloc_sec8 rec_q46 rec_q47 random_alloc_sec9 q60_gg q60_gh q60_ge q60_gf q60_gc q60_gd noanswerq60_g1_r4 noanswerq60_g1_r5 q60_ga q60_gb q60_g8 q60_g9 q60_g6 q60_g7 noanswerq60_g2_r4 noanswerq60_g2_r5 q60_g4 q60_g5 q60_g2 q60_g3 q60_g0 q60_g1 noanswerq60_g3_r4 noanswerq60_g3_r5 ethni_rec a5_98 a5_99 incpp ethni_groups
+drop ID0 ID1 record uuid date status SAMPLE_FLAG TOTAL_COUNTRY_SAMPLE survey_language INTRO REC_GENQUO Age_rec INCOM2 INCOM3 INCOM0 INCOM1 NUTS1_AUT VAR_NUTS1_AUT VAR_N1Y VAR_N1Z VAR_NUTS1TEXT_AUT VAR_N1W VAR_N1X NUTS2_AUT VAR_NUTS2_AUT VAR_N1U VAR_N1V VAR_NUTS2TEXT_AUT VAR_N1S VAR_N1T NUTS3_AUT VAR_NUTS3_AUT VAR_N1Q VAR_N1R VAR_NUTS3TEXT_AUT VAR_N1O VAR_N1P LAU_AUT LAU_A0 LAU_A1 VAR_LAUCODE_AUT VAR_LA VAR_LB VAR_DEGURBA_AUT VAR_DA VAR_DB NUTS1_GER VAR_NUTS1_GER VAR_N1M VAR_N1N VAR_NUTS1TEXT_GER VAR_N1K VAR_N1L NUTS2_GER VAR_NUTS2_GER VAR_N1I VAR_N1J VAR_NUTS2TEXT_GER VAR_N1G VAR_N1H NUTS3_GER VAR_NUTS3_GER VAR_N1E VAR_N1F VAR_NUTS3TEXT_GER VAR_N1C VAR_N1D LAU_GER LAU_G0 LAU_G1 VAR_LAUCODE_GER VAR_L8 VAR_L9 VAR_DEGURBA_GER VAR_D8 VAR_D9 NUTS1_NLD VAR_NUTS1_NLD VAR_N1A VAR_N1B VAR_NUTS1TEXT_NLD VAR_N18 VAR_N19 NUTS2_NLD VAR_NUTS2_NLD VAR_N16 VAR_N17 VAR_NUTS2TEXT_NLD VAR_N14 VAR_N15 NUTS3_NLD VAR_NUTS3_NLD VAR_N12 VAR_N13 VAR_NUTS3TEXT_NLD VAR_N10 VAR_N11 LAU_NLD LAU_N0 LAU_N1 VAR_LAUCODE_NLD VAR_L6 VAR_L7 VAR_DEGURBA_NLD VAR_D6 VAR_D7 NUTS1_DNK VAR_NUTS1_DNK VAR_NY VAR_NZ VAR_NUTS1TEXT_DNK VAR_NW VAR_NX NUTS2_DNK VAR_NUTS2_DNK VAR_NU VAR_NV VAR_NUTS2TEXT_DNK VAR_NS VAR_NT NUTS3_DNK VAR_NUTS3_DNK VAR_NQ VAR_NR VAR_NUTS3TEXT_DNK VAR_NO VAR_NP LAU_DNK LAU_D0 LAU_D1 VAR_LAUCODE_DNK VAR_L4 VAR_L5 VAR_DEGURBA_DNK VAR_D4 VAR_D5 NUTS1_BEL VAR_NUTS1_BEL VAR_NM VAR_NN VAR_NUTS1TEXT_BEL VAR_NK VAR_NL NUTS2_BEL VAR_NUTS2_BEL VAR_NI VAR_NJ VAR_NUTS2TEXT_BEL VAR_NG VAR_NH NUTS3_BEL VAR_NUTS3_BEL VAR_NE VAR_NF VAR_NUTS3TEXT_BEL VAR_NC VAR_ND LAU_BEL LAU_B0 LAU_B1 VAR_LAUCODE_BEL VAR_L2 VAR_L3 VAR_DEGURBA_BEL VAR_D2 VAR_D3 NUTS1_ITA VAR_NUTS1_ITA VAR_NA VAR_NB VAR_NUTS1TEXT_ITA VAR_N8 VAR_N9 NUTS2_ITA VAR_NUTS2_ITA VAR_N6 VAR_N7 VAR_NUTS2TEXT_ITA VAR_N4 VAR_N5 NUTS3_ITA VAR_NUTS3_ITA VAR_N2 VAR_N3 VAR_NUTS3TEXT_ITA VAR_N0 VAR_N1 LAU_ITA LAU_I0 LAU_I1 VAR_LAUCODE_ITA VAR_L0 VAR_L1 VAR_DEGURBA_ITA VAR_D0 VAR_D1 DEGURBA REC_QUOQ17A1 REC_QUOQ17A2 REC_QUOQ17A3 REC_QUOQ17B1 REC_QUOQ17B2 REC_QUOQ17B3 REC_QUOQ17B4 REC_QUOQ17C1 REC_QUOQ17C2 REC_QUOQ17C3 REC_QUOQ17C4 REC_QUOQ17D1 REC_QUOQ17D2 REC_QUOQ17D3 REC_QUOQ17D4 REC_QUOQ17D5 REC_QUOQ17D6 REC_QUOQ17E1 REC_QUOQ17E2 REC_QUOQ17E3 REC_QUOQ17F1 REC_QUOQ17F2 REC_QUOQ17G1 REC_QUOQ17G2 REC_QUOQ17G3 REC_QUOQ17H1 REC_QUOQ17H2 REC_QUOQ17H3 REC_QUOQ17I1 REC_QUOQ17J1 REC_QUOQ17J2 REC_QUOQ17J3 REC_QUOQ17J4 REC_QUOQ17K1 REC_QUOQ17K2 REC_QUOQ17K3 REC_QUOQ17L1 REC_QUOQ17L2 REC_QUOFINA1 REC_QUOFINA2 REC_QUOFINA3 REC_QUOFINB1 REC_QUOFINB2 REC_QUOFINB3 REC_QUOFINB4 REC_QUOFINC1 REC_QUOFINC2 REC_QUOFINC3 REC_QUOFINC4 REC_QUOFIND1 REC_QUOFIND2 REC_QUOFIND3 REC_QUOFIND4 REC_QUOFIND5 REC_QUOFIND6 REC_QUOFINE1 REC_QUOFINE2 REC_QUOFINE3 REC_QUOFINF1 REC_QUOFINF2 REC_QUOFING1 REC_QUOFING2 REC_QUOFING3 REC_QUOFINH1 REC_QUOFINH2 REC_QUOFINH3 REC_QUOFINI1 REC_QUOFINJ1 REC_QUOFINJ2 REC_QUOFINJ3 REC_QUOFINJ4 REC_QUOFINK1 REC_QUOFINK2 REC_QUOFINK3 REC_QUOFINL1 REC_QUOFINL2 Q170 Q171 Random_Alloc_SEC7 Random_Alloc_SEC8 REC_Q46 REC_Q47 Random_Alloc_SEC9 Q60_GG Q60_GH Q60_GE Q60_GF Q60_GC Q60_GD noanswerq60_G1_r4 noanswerq60_G1_r5 Q60_GA Q60_GB Q60_G8 Q60_G9 Q60_G6 Q60_G7 noanswerq60_G2_r4 noanswerq60_G2_r5 Q60_G4 Q60_G5 Q60_G2 Q60_G3 Q60_G0 Q60_G1 noanswerq60_G3_r4 noanswerq60_G3_r5 ethni_rec A5_98 A5_99
 	
 /*=================================================================================================================
 					Renaming/Recoding variables
@@ -139,6 +162,7 @@ g strata = .
 	- Make sure that the interview lenght is in minutes
 */
 
+recode A5_1 A5_2 (0=2)
 
 /*=================================================================================================================
 					Special Cases (Only for FULL FIELDWORK)
