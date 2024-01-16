@@ -166,17 +166,17 @@ do "${path2dos}/Routines/range_checks.do"
 */
 
 *--- Adding Country General Information
-<<<<<<< Updated upstream
-if (inlist("${country_name}", "Hungay")){
-	decode country, g(country_name_ltn)
-=======
 if (inlist("${country_name}", "0_Bilendi")){
 	g country_name_ltn = country
->>>>>>> Stashed changes
 }
 else {
 	g country_name_ltn = "${country_name}"
 }
+
+/* Note: 
+	The previous exception is only for polling companies that submitted the data of multiple countries
+	in a single data file.
+*/
 
 *--- Drop obvious vars
 drop country year id
