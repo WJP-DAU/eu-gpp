@@ -166,13 +166,21 @@ do "${path2dos}/Routines/range_checks.do"
 */
 
 *--- Adding Country General Information
+<<<<<<< Updated upstream
 if (inlist("${country_name}", "Hungay")){
 	decode country, g(country_name_ltn)
+=======
+if (inlist("${country_name}", "0_Bilendi")){
+	g country_name_ltn = country
+>>>>>>> Stashed changes
 }
 else {
 	g country_name_ltn = "${country_name}"
 }
+
+*--- Drop obvious vars
 drop country year id
+
 g year = ${year}
 g id = _n
 merge m:1 country_name_ltn using "${path2meta}/general_info.dta", nogen keep(match) ///
