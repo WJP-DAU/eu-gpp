@@ -29,14 +29,13 @@ g nuts_id  = "LU00"
 /*=================================================================================================================
 					Adding missing variables from the data map
 =================================================================================================================*/
-g q36_8 = .
+g q36_8 = . // IMPORTANT!!
 forvalues j = 1/3 {
 	g q60_G`j'_98 = ""
 	g q60_G`j'_99 = ""
 }
 g City = ""
-drop q17
-foreach x in PSU SSU Strata q17 {
+foreach x in PSU SSU Strata {
 	g `x' = ""
 }
 g COLOR = .
@@ -65,7 +64,7 @@ foreach x in a b c d {
 rename paff1_1 paff1
 rename REGION Region
 rename 	(YEAR Gend Age INCOME q28* q29* Relig Ethni Nation Fin Edu Emp Work Marital), lower
-foreach x of varlist income_cur income_time Region ethni relig paff2 {
+foreach x of varlist income_cur income_time Region ethni relig paff2 q17 {
 	rename `x' `x'_aux
 	decode `x'_aux, g(`x')
 	drop `x'_aux
@@ -92,6 +91,14 @@ g ethni_groups = .
 foreach x of varlis q16_* A7 {
 	replace `x' = `x' - 1 if `x' < 98
 }
+label values q16_* .
+
+*--- A2J Problem selection
+/* Note:
+	1. Low severity problems selected ID = [16, 20, 36, 76, 78, 80, 82]
+	   Example: ID = 76, A3 selected, A3 severity = 0, A1 had a severity of 6
+*/
+
 
 *--- Logic/encoding issues
 replace q33b = -8888 if q33b == 999
@@ -102,16 +109,15 @@ foreach x of varlist q38e q38f q38g_1 q38h_1 Income2 {
 
 *--- Routing issues
 replace q23 = . if q20 == 1
+gen aux_1 = 1 if inlist(q17, "A1", "A2", "A3", "B1", "B2", "B3", "B4", "C1")
+gen aux_2 = 1 if inlist(q17, "F1", "I1", "J4", "K1", "K2", "K3", "L1", "L2")
+replace q18a = . if aux_1 == . & aux_2 == .
+drop aux_*
 
 *--- Randomization
 /* Note:
 	1. Unbalanced groups in q60: 36 answered Option B while only 18 answered Option C. 30 for Option A.
-	2. q3h, q12c*, q12d, q12g*, q12h, q37d, q39c_G1, q39a_G2, q39b_G2, q39d_G2, q39f_G2, q39g_G2, q39h_G2, q43f_G1,
-	q43h_G1, q43i_G1*, q43d_G2*, q43e_G2*, q43f_G2, q45b_G2, q57_G2, q48_G1*, q49_G1*, q51_G1, q52_G1*, q53_G1,
-	q54_G1, q55_G1*, q56_G1*, q49_G2*, q50_G2*, q51_G2*, q53_G2*, q54_G2*, q55_G2, q44c_G2, q44d_G2*, q44e_G2*, 
-	q44f_G2*, q44g_G2, q44h_G2*, q44i_G2*, q44j_G2*, q44k_G2, q44l_G2*,  have more than 25% of valid answers as DK/NA.
-	3. 20 individual answered the survey in less than 20 min. One even under 10 minutes.
-	4. 8 individuals were flagged with having a high incidence of straight-lining
+	2. Dataset doesn't seem to be encoded in Unicode UTF-8.
 */
 
 /*=================================================================================================================
@@ -121,6 +127,15 @@ replace q23 = . if q20 == 1
 /* Notes:
 	1. 25 obs (30%) have more than 30 DK/NA values in the target variables.
 	2. Unbalanced demographics
+	3. q3h, q12c*, q12d, q12g*, q12h, q37d, q39c_G1, q39a_G2, q39b_G2, q39d_G2, q39f_G2, q39g_G2, q39h_G2, q43f_G1,
+	q43h_G1, q43i_G1*, q43d_G2*, q43e_G2*, q43f_G2, q45b_G2, q57_G2, q48_G1*, q49_G1*, q51_G1, q52_G1*, q53_G1,
+	q54_G1, q55_G1*, q56_G1*, q49_G2*, q50_G2*, q51_G2*, q53_G2*, q54_G2*, q55_G2, q44c_G2, q44d_G2*, q44e_G2*, 
+	q44f_G2*, q44g_G2, q44h_G2*, q44i_G2*, q44j_G2*, q44k_G2, q44l_G2*,  have more than 25% of valid answers 
+	as DK/NA.
+	4. 6 individuals answered the survey in less than 15 min. One even under 10 minutes.
+	ID = [1, 31, 45, 46, 50, 81]
+	5. 8 individuals were flagged with having a high incidence of straight-lining.
+	ID = [1, 2, 13, 21, 26, 46, 48, 78]
 */
 
 /*=================================================================================================================
