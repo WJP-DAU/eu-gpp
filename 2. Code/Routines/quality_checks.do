@@ -68,7 +68,7 @@ foreach x of varlist 	///
 }
 foreach x of varlist aux_* {
 	qui sum `x'
-	if r(mean) > 0.15 & r(N) > 0 {
+	if r(mean) > 0.25 & r(N) > 0 {
 		local orig = subinstr("`x'", "aux_", "", 1)
 		local vlab : variable label `orig'
 		di as error "`x' [`vlab']"
@@ -84,9 +84,10 @@ drop aux_*
 =================================================================================================================*/
 
 *--- Speeder flag
-qui inspect interview_length if interview_length < 25
+qui inspect interview_length if interview_length < 15
 if r(N) > 0 {
-	di as error r(N) " individuals answered the survey in less than 25 minutes."
+	di as error r(N) " individuals answered the survey in less than 15 minutes."
+	list id if interview_length < 15
 }
 
 *--- Straight-lining flag (only for Online Surveys)
@@ -114,6 +115,7 @@ if r(N) == 0 {
 	qui inspect avg_prop if avg_prop > 0.6666
 	if r(N) > 0 {
 		di as error r(N) " individual(s) have a high incidence of straight-lining."
+		list id if avg_prop > 0.6666
 	}
 
 	drop prev_answer str_count_* n_* prop_* avg_prop
