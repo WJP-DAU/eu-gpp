@@ -22,8 +22,9 @@ cls
 
 *------ (a) For which country are we going to run this do-file?
 			// Special naming for the following companies: 
-			//		- Bilendi, write "0_Bilendi" as country_name
-global country_name "Hungary"
+			//		- Bilendi: write "0_Bilendi" as country_name
+			//		- IPSOS:   write "0_IPSOS" as country_name
+global country_name "0_IPSOS"
 
 *------ (b) What data stage is this?
 			// Pretest: 		Please input "1. PTR"
@@ -34,7 +35,7 @@ global dataStage "1. PTR"
 global year 2024
 
 *------ (c) Original file name
-global dataName "Hungary_PRT_20240116.sav"	
+global dataName "IPSOS_PRT_20240116.sav"	
 
 /*	IMPORTANT:
 	 1. Please confirm with the GPP team that this is INDEED the latest data file submitted by the polling company.
@@ -166,7 +167,7 @@ do "${path2dos}/Routines/range_checks.do"
 */
 
 *--- Adding Country General Information
-if (inlist("${country_name}", "0_Bilendi")){
+if (inlist("${country_name}", "0_Bilendi", "0_IPSOS")){
 	g country_name_ltn = country
 }
 else {
@@ -201,7 +202,9 @@ do "${path2dos}/Routines/variable_renaming.do"
 */
 
 *--- Adding transformed variables
-decode income_quintile, gen(income_text)
+if (!inlist("${country_name}", "0_IPSOS")){
+	decode income_quintile, gen(income_text)
+}
 foreach x in protest consultation cso {
 	g CP_`x' = CPA_`x'
 	replace CP_`x' = CPB_`x' if CP_`x' == .
@@ -285,7 +288,15 @@ if (inlist("${country_name}", "0_Bilendi")){
 		restore
 	}
 }
-else {
+if (inlist("${country_name}", "0_IPSOS")){
+	foreach x in Czechia Estonia Finland France Slovenia Spain Sweden {
+		preserve
+		keep if country_name_ltn == "`x'"
+		save "${path2data}/${dataStage}/`x'/1. Clean Data/`x'_clean.dta", replace
+		restore
+	}
+}
+if (!inlist("${country_name}", "0_Bilendi", "0_IPSOS")) {
 	save "${path2data}/${dataStage}/${country_name}/1. Clean Data/${country_name}_clean.dta", replace
 }
 

@@ -39,7 +39,7 @@ if inlist("${country_name}", "Portugal") {
 	global company "Intercampus (PT)"
 	global multi "NO"
 }
-if inlist("${country_name}", "Czechia", "Estonia", "Finland", "France", "Slovenia", "Spain", "Sweden") {
+if inlist("${country_name}", "Czechia", "Estonia", "Finland", "France", "Slovenia", "Spain", "Sweden", "0_IPSOS") {
 	global company "Ipsos (CZ, ET, FI, FR, SL, SW, SP)"
 	global multi "YES"
 }
@@ -70,7 +70,7 @@ if inlist("${dataStage}", "2. FFW") {
 
 
 *--- RAW DATA PATH
-if inlist("${country_name}", "0_Bilendi") {
+if inlist("${country_name}", "0_Bilendi", "0_IPSOS") {
 	global RD_path "${path2SP}/EU Subnational GPP/Polling Companies/${company}/05. Pretest Data/Original"
 }
 else if inlist("${multi}", "YES") {

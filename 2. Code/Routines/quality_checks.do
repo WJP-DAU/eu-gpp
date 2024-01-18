@@ -85,7 +85,7 @@ drop aux_*
 qui inspect interview_length if interview_length < 15
 if r(N) > 0 {
 	di as error r(N) " individuals answered the survey in less than 15 minutes."
-	list id if interview_length < 15
+	bys country_name_ltn: list id if interview_length < 15
 }
 
 *--- Straight-lining flag (only for Online Surveys)
@@ -113,7 +113,9 @@ if r(N) == 0 {
 	qui inspect avg_prop if avg_prop > 0.6666
 	if r(N) > 0 {
 		di as error r(N) " individual(s) have a high incidence of straight-lining."
-		list id if avg_prop > 0.6666
+		bys country_name_ltn: list id if avg_prop > 0.6666
+		di as error "Below... a list of individuals who were flagged with straight-lining and answered the survey in less than 15 min"
+		bys country_name_ltn: list id if avg_prop > 0.6666 & interview_length < 15
 	}
 
 	drop prev_answer str_count_* n_* prop_* avg_prop
