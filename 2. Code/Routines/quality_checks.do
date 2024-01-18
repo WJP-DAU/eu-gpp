@@ -81,6 +81,12 @@ drop aux_*
 					Answering flags
 =================================================================================================================*/
 
+*--- Check that the length of interview is in minutes
+sum interview_length
+if r(min) > 100 {
+	di as error "The length of interview is probably in minutes"
+}
+
 *--- Speeder flag
 qui inspect interview_length if interview_length < 15
 if r(N) > 0 {
