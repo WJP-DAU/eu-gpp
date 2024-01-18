@@ -163,6 +163,7 @@ drop ID0 ID1 record uuid date status SAMPLE_FLAG TOTAL_COUNTRY_SAMPLE survey_lan
 */
 
 recode A5_1 A5_2 (0=2)
+replace Interview_length=Interview_length/60
 
 /*=================================================================================================================
 					Special Cases (Only for FULL FIELDWORK)
