@@ -40,6 +40,30 @@ protocol guidelines and use the interactive codebook tool.
 			numlabel, add
 */
 
+decode Region, g(region)
+decode City, g(city)
+
+gen nuts_ltn=""
+replace nuts_ltn="Jadranska Hrvatska" if region=="Dalmatia"
+replace nuts_ltn="Jadranska Hrvatska" if region=="Istria, Hrvatsko Primorj, Gorski Kotar"
+replace nuts_ltn="Panonska Hrvatska" if region=="Lika, Kordun, Banija"
+replace nuts_ltn="Panonska Hrvatska" if region=="Slavonia"
+replace nuts_ltn="Grad Zagreb" if city=="Ivanja Reka"
+replace nuts_ltn="Sjeverna Hrvatska" if City==5 //Madžarevo
+replace nuts_ltn="Sjeverna Hrvatska" if city=="Nedeljanec"
+replace nuts_ltn="Panonska Hrvatska" if city=="Veliko Trojstvo"
+replace nuts_ltn="Sjeverna Hrvatska" if City==8 //Varaždin
+replace nuts_ltn="Grad Zagreb" if region=="Zagreb"
+
+gen nuts_id=""
+replace nuts_id="HR02" if nuts_ltn=="Panonska Hrvatska"
+replace nuts_id="HR03" if nuts_ltn=="Jadranska Hrvatska"
+replace nuts_id="HR05" if nuts_ltn=="Grad Zagreb"
+replace nuts_id="HR06" if nuts_ltn=="Sjeverna Hrvatska"
+
+drop Region City
+rename city City
+rename region Region 
 
 /*=================================================================================================================
 					Adding missing variables from the data map
