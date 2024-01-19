@@ -107,7 +107,25 @@ recode Region /// España
 					Adding missing variables from the data map
 =================================================================================================================*/
 
-
+forvalues j = 1/3 {
+	g q60_G`j'_98 = ""
+	g q60_G`j'_99 = ""
+}
+foreach x in PSU SSU Strata {
+	g `x' = ""
+}
+g COLOR = .
+g dweight = .
+forvalues j=1/3 {
+	g B`j' = .
+}
+g qpi1 = .
+foreach x in a b c d e f {
+	g qpi2`x' = .
+}
+foreach x in a b c d {
+	g qpi3`x' = .
+}
 
 
 /*=================================================================================================================
@@ -141,25 +159,7 @@ foreach x of varlist q60_G1_1 q60_G1_2 q60_G1_3 q60_G2_1 q60_G2_2 q60_G2_3 q60_G
 	replace `x' = `x'_99 if `x'_99 != ""
 	drop `x'_99
 }
-forvalues j = 1/3 {
-	g q60_G`j'_98 = ""
-	g q60_G`j'_99 = ""
-}
-foreach x in PSU SSU Strata {
-	g `x' = ""
-}
-g COLOR = .
-g dweight = .
-forvalues j=1/3 {
-	g B`j' = .
-}
-g qpi1 = .
-foreach x in a b c d e f {
-	g qpi2`x' = .
-}
-foreach x in a b c d {
-	g qpi3`x' = .
-}
+
 rename Politics politics
 
 rename Urban degurba
@@ -198,6 +198,8 @@ g ethni_groups = .
 	2. Question A1 should not have a "Prefer not to answer" option.
 */
 
+g idorig = id
+
 /*=================================================================================================================
 					Comments on the quality checks
 =================================================================================================================*/
@@ -224,7 +226,7 @@ g ethni_groups = .
 	5. 52 individuals have a high incidence of straight-lining across question sets.
 		Spain: 14 (27%)
 		Sweden: 10 (20%)
-		ID =[116, 128, 168, 181, 194, 259, 260, 278, 294, 299, 308, 325] -> Straight-lining + speed flag
+		ID =[137, 139, 165, 189, 204, 265, 276, 289, 291, 295, 296, 321] -> Straight-lining + speed flag
 */
 
 /*=================================================================================================================
