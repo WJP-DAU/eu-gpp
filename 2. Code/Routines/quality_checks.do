@@ -84,7 +84,7 @@ drop aux_*
 *--- Check that the length of interview is in minutes
 sum interview_length
 if r(min) > 100 {
-	di as error "The length of interview is probably in minutes"
+	di as error "The length of interview is probably in seconds"
 }
 
 *--- Speeder flag
