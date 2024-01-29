@@ -30,7 +30,16 @@ protocol guidelines and use the interactive codebook tool.
 
 // rename *, lower
 g nuts_ltn = ""
+replace nuts_ltn = "Northern and Western" if nuts2 == 1
+replace nuts_ltn = "Southern" if nuts2 == 2
+replace nuts_ltn = "Eastern & Midland" if nuts2 == 3
+
 g nuts_id  = ""
+replace nuts_id = "IE04" if nuts2 == 1
+replace nuts_id = "IE05" if nuts2 == 2
+replace nuts_id = "IE06" if nuts2 == 3
+
+drop nuts2 nuts3
 
 /*=================================================================================================================
 					Adding missing variables from the data map
@@ -50,11 +59,11 @@ forvalues j = 1/3 {
 	g q60_G`j'_99 = ""
 }
 
-foreach x of varlist *_Time {
-	destring `x', g(`x'_num)
-}
-egen Interview_length = rowtotal(*_Time_num)
-replace Interview_length = Interview_length/60
+// foreach x of varlist *_Time {
+// 	destring `x', g(`x'_num)
+// }
+// egen Interview_length = rowtotal(*_Time_num)
+// replace Interview_length = Interview_length/60
 
 /* Note:
 	1. Please label the income quintiles with the actual ranges
@@ -130,7 +139,8 @@ g dweight = .
 					Dropping variables added by the polling company
 =================================================================================================================*/
 
-drop *_Time *_Time_num
+drop degurba
+// drop *_Time *_Time_num
 // drop a53 a54
 // drop income2_codes // This variable probably captures NAs
 // drop datacollection_finishtime optionab paff1slider_1_paff1_codes
@@ -151,6 +161,8 @@ foreach x of varlist *_g1_* *_g2_* *_g3_* {
 
 rename a1 a2 a3 a4 a5_1 a5_2 a6 a7, upper
 rename (urban a5b a5c income2)(Urban A5b A5c Income2)
+
+rename tot_time Interview_length
 
 // recode income (1/4 = 1)(5/8 = 2)(9/12 = 3)(13/16 = 4)(17/20 = 5)(98 = 98)(99 = 99)
 // No recorded DK/NA in income. Probably an issue. Income only has 46 observations (we are missing 4). Where are the DK/NA?
@@ -309,14 +321,14 @@ g ethni_groups = .
 					Adjustments from the logic, randomization, and routing checks
 =================================================================================================================*/
 
-foreach x of varlist q13* {
-	replace `x' = 0 if `x' == 2 | `x' >= 98
-}
-egen aux_T = rowtotal(q13*)
-foreach x of varlist q14_* {
-	replace `x' = . if aux_T == 0
-}
-drop aux_T
+// foreach x of varlist q13* {
+// 	replace `x' = 0 if `x' == 2 | `x' >= 98
+// }
+// egen aux_T = rowtotal(q13*)
+// foreach x of varlist q14_* {
+// 	replace `x' = . if aux_T == 0
+// }
+// drop aux_T
 replace wagreement = . if work == 1 | work == .
 
 /* Notes:
