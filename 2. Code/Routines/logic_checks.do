@@ -329,7 +329,7 @@ if `a' != `b' {
 	}
 
 *------ (e) Is everyone answering who answered AJD_inst_advice answering AJR_resolution?
-di as result "Check in the tab that the missing observations match for both variables"
+di as error "Check in the tab that the missing observations match for both variables"
 tab AJR_resolution AJD_inst_advice, m
 
 qui inspect AJR_resolution
