@@ -25,7 +25,6 @@ protocol guidelines and use the interactive codebook tool.
 
 * We should ask for the information at NUTS 2 level that is refered to 7 regions across the country
 
-rename *, lower
 decode region, g(nuts_ltn)
 recode region (1 = 1 "HU1")(2 = 2 "HUI2")(3 = 3 "HUI3"), g(nuts_id_aux)
 decode nuts_id_aux, g(nuts_id)
@@ -139,7 +138,7 @@ g ethni_groups = .
 *A2J problems severity are out of range, they are counting from 1 not from 0. This affects variable q17 because the problem selected with severity as 4 should not be included in the routing.
 
 *--- Out of range
-foreach x of varlis q16_* {
+foreach x of varlist q16_* {
 	replace `x' = `x' - 1 if `x' < 98
 }
 
