@@ -87,6 +87,7 @@ foreach country in `subdirs' {
 		foreach td in `target' {
 			if (length("`td'") > 0) {
 				use "${path2data}/1. PTR/`country'/1. Clean Data/`td'", clear
+				 recast str150 relig ethni voteintention
 				if (`c' > 1) {
 					append using "${path2data}/3. Merge/EU_GPP_2024.dta", force
 				}
@@ -96,7 +97,7 @@ foreach country in `subdirs' {
 		}
 	}
 }
-drop psu ssu qincome_time JobDescription count0 count1 count2 count3 count4 count5 q60_*
+drop psu ssu count0 count1 count2 count3 count4 count5 q60_*
 
 /*=================================================================================================================
 					Saving data

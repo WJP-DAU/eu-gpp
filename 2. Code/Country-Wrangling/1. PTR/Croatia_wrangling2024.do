@@ -118,6 +118,12 @@ recode q33b (98 = -8888) (99 = -9999)
 
 replace Interview_length=Interview_length/60
 
+foreach x of varlist ethni relig paff2 {
+	rename `x' `x'_aux
+	decode `x'_aux, g(`x')
+	drop `x'_aux
+}
+
 /* Note:
 	When applicable, remember to decode (convert variables to string) the following variables:
 		- income_cur
