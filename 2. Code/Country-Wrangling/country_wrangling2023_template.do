@@ -1,9 +1,9 @@
 /*=================================================================================================================
 Project:		EU Subnational 2023
-Routine:		GPP Data Cleaning and Harmonization 2023 (COUNTRY - Pretest)
+Routine:		GPP Data Cleaning and Harmonization 2024 (COUNTRY - Full Fieldwork)
 Author(s):		Carlos Toruño 		(ctoruno@worldjusticeproject.org)
 Dependencies:  	World Justice Project
-Creation Date:	October, 2023
+Creation Date:	March, 2024
 
 Description:
 Data wrangling cleaning and harmonization routine for the COUNRTY_NAME pretest data received on DD/MM/YYYY.
@@ -45,7 +45,29 @@ protocol guidelines and use the interactive codebook tool.
 					Adding missing variables from the data map
 =================================================================================================================*/
 
-g q36_8    = .
+/* Note:
+	Face-to-Face polls will be missing the following variables (just uncomment):
+	
+	forvalues j = 1/3 {
+		g q60_G`j'_98 = ""
+		g q60_G`j'_99 = ""
+	}
+	g City = ""
+	foreach x in PSU SSU Strata {
+		g `x' = ""
+	}
+	g COLOR = .
+	forvalues j=1/3 {
+		g B`j' = .
+	}
+	g qpi1 = .
+	foreach x in a b c d e f {
+		g qpi2`x' = .
+	}
+	foreach x in a b c d {
+		g qpi3`x' = .
+	}
+*/
 
 
 /*=================================================================================================================
@@ -64,9 +86,9 @@ drop gend_quota age2 quota_group ///
 rename Politics politics
 
 /* Note:
-	Always check that Gend is correctly coded (Male == 1)(Female == 2)(Nonbin == 3)(Not recog == 4)
+	1. Always check that Gend is correctly coded (Male == 1)(Female == 2)(Nonbin == 3)(Not recog == 4)
 	
-	When applicable, remember to decode (convert variables to string) the following variables:
+	2. When applicable, remember to decode (convert variables to string) the following variables:
 		- income_cur
 		- income_time
 		- q17
@@ -75,18 +97,49 @@ rename Politics politics
 		- Strata / PSU / SSU
 		- ethni / relig / paff2 (only for the pretest)
 		- rol open ended questions
+		
+		You can do this by running:
+			br income_cur income_time q17 City Region Strata PSU SSU ethni relig paff2 q60_G*
+			
+		If the values of a variable are shown in blue, that means the variable is categorical. We need to 
+		decode it by running:
+			foreach x of varlist [BLUE VARIABLES ONLY] {
+				rename `x' `x'_aux
+				decode `x'_aux, g(`x')
+				drop `x'_aux
+			}
 	
-	- Also check their values and labels. 
-	- Please standardize the DK/NA values for income, income_cur, income_time to (No need for pretest):
+		Also check their values and labels:
+		- No typos 
+		- Answers are in english
+		
+		Please standardize the DK/NA values:
 		- "Don't know"
 		- "No Answer"
-	- Please check that the DK/NA values for q33b, q38e, q38f, q38g_1, q38h_1, and Income2 are encoded as:
+		
+		You can check for the previous by running:
+			foreach x of varlist income_cur income_time q17 City Region Strata PSU SSU ethni relig paff2 q60_G* {
+				tab `x'
+			}
+		
+	3. Please check that the DK/NA values for q33b, q38e, q38f, q38g_1, q38h_1, and Income2 are encoded as:
 		- "Don't know" = -8888
 		- "No Answer"  = -9999
-	- Check the values for q17, they should be equal to the problem code: A2, A3, B1, L2, etc. This is VERY 
+		
+		You can check for the previous by running:
+			numlabel, add
+			foreach x of varlist q33b q38e q38f q38g_1 q38h_1 Income2 {
+				tab `x'
+			}
+		
+	4. Check the values for q17, they should be equal to the problem code: A2, A3, B1, L2, etc. This is VERY 
 	IMPORTANT for the A2J problem selection checks.
-	- Check that multiple choice questions (q14, q21, q36) are correctly encoded as binary (1 | 2)
-	- Make sure that the interview lenght is in minutes
+	
+	5. Check that multiple choice questions (q14, q21, q36) are correctly encoded as binary (1 | 2)
+	
+	6. Make sure that the interview lenght is in minutes
+	
+	7. Check the dweight
 */
 
 
@@ -95,16 +148,12 @@ rename Politics politics
 =================================================================================================================*/
 
 *--- Vote Intention & Incumbent Political Party:
-* recode paff2 (x=y)		// Recode following the Party Coding Units from the V-Party Dataset
-* g incpp = (paff2 == xx) if paff2 != .
-g incpp = . 
-	// Alway gen an empty vector for the PRETEST!!!
+g incpp = 0
+replace incpp = 1 if paff2 == [INCUMBENT POLITICAL PARTY]
 
 *--- Ethnicity groups:
-* recode ethni (x=y)	 	// Recode following the European Standard Classification of Cultural and Ethnic Groups
-* recode ethni (x=1)(y=2)(z=3)(98/99 = .), g(ethni_groups)
-g ethni_groups = . 
-	// Alway gen an empty vector for the PRETEST!!!
+g ethni_groups = 0
+replace ethni_groups = 1 if ethni == [INCUMBENT POLITICAL PARTY]
 
 
 /*=================================================================================================================
