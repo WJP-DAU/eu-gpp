@@ -44,8 +44,8 @@ egen DKNA = anycount(	TRT_* ATC_* COR_* IPR_* IRE_* SEC_* ///
 *--- Overall count
 qui inspect DKNA if DKNA > 45
 if r(N) > 0 {
-	di as error r(N) " obs have more than 45 DK/NA values in the target variables."
-	bys country_name_ltn: list id if DKNA > 45
+	di as error r(N) " obs have more than 50 DK/NA values in the target variables."
+	bys country_name_ltn: list id if DKNA > 50
 }
 
 *--- Disaggregated count
@@ -65,7 +65,7 @@ foreach x of varlist 	///
 }
 foreach x of varlist aux_* {
 	qui sum `x'
-	if r(mean) > 0.30 & r(N) > 0 {
+	if r(mean) > 0.40 & r(N) > 0 {
 		local orig = subinstr("`x'", "aux_", "", 1)
 		local vlab : variable label `orig'
 		di as error "`x' [`vlab']"
@@ -87,10 +87,14 @@ if r(min) > 100 {
 }
 
 *--- Speeder flag
-qui inspect interview_length if interview_length < 15
+g speeder = 0
+replace speeder = 1 if interview_length < 15 & AJP_problem != ""
+replace speeder = 1 if interview_length < 12 & AJP_problem == ""
+
+qui inspect speeder if speeder == 1
 if r(N) > 0 {
-	di as error r(N) " individuals answered the survey in less than 15 minutes."
-	bys country_name_ltn: list id if interview_length < 15
+	di as error r(N) " individuals are flagged as speeders."
+	bys country_name_ltn: list id if speeder == 1
 }
 
 *--- Straight-lining flag (only for Online Surveys)
@@ -115,16 +119,17 @@ if r(N) == 0 {
 	
 	egen avg_prop = rowmean(prop_*)
 	tab avg_prop if avg_prop > 0.6666
-	qui inspect avg_prop if avg_prop > 0.6666
+	qui inspect avg_prop if avg_prop > 0.75
 	if r(N) > 0 {
 		di as error r(N) " individual(s) have a high incidence of straight-lining."
 		bys country_name_ltn: list id if avg_prop > 0.6666
 		di as error "Below... a list of individuals who were flagged with straight-lining and answered the survey in less than 15 min"
-		bys country_name_ltn: list id if avg_prop > 0.6666 & interview_length < 15
+		bys country_name_ltn: list id if avg_prop > 0.6666 & speeder == 1
 	}
 
 	drop prev_answer str_count_* n_* prop_* avg_prop
 }
+drop speeder
 
 /*=================================================================================================================
 					Difficulty Score (only for face-to-face surveys)

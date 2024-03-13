@@ -85,7 +85,7 @@ drop gend_quota age2 quota_group ///
 
 rename Politics politics
 
-/* Note:
+/* Notes:
 	1. Always check that Gend is correctly coded (Male == 1)(Female == 2)(Nonbin == 3)(Not recog == 4)
 	
 	2. When applicable, remember to decode (convert variables to string) the following variables:
@@ -140,6 +140,10 @@ rename Politics politics
 	6. Make sure that the interview lenght is in minutes
 	
 	7. Check the dweight
+	
+	8. Sometimes, variables like the q16 set, come as numeric variables with labels. The value can be miscoded or
+	out of range, while the label is correct. Be careful. The previous is very common to happen in A1 and A7 
+	as well.
 */
 
 
@@ -153,7 +157,7 @@ replace incpp = 1 if paff2 == [INCUMBENT POLITICAL PARTY]
 
 *--- Ethnicity groups:
 g ethni_groups = 0
-replace ethni_groups = 1 if ethni == [INCUMBENT POLITICAL PARTY]
+replace ethni_groups = 1 if ethni == [MAJOR ETHNICITY]
 
 
 /*=================================================================================================================

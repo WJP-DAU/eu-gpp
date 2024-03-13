@@ -87,6 +87,9 @@ foreach x of varlist q33b q38e q38f q38g_1 q38h_1 {
 replace Income2 = -8888 if Income2 == 98
 replace Income2 = -9999 if Income2 == 99
 
+replace q16_L2 = q16_L2-1
+replace A7 = A7 - 1 if A7 < 98
+
 /*=================================================================================================================
 					Special Cases (Only for FULL FIELDWORK)
 =================================================================================================================*/
@@ -104,14 +107,19 @@ replace ethni_groups = 1 if ethni == "Luxembourger"
 					Adjustments from the logic, randomization, and routing checks
 =================================================================================================================*/
 
-* ADD HERE ANY ISSUES OR COMMENTS FOUND DURING THE LOGIC, RANDOMIZATION, AND ROUTING CHECKS THAT NEED TO BE FIXED 
-
+* None found
 
 /*=================================================================================================================
 					Comments on the quality checks
 =================================================================================================================*/
 
-* WRITE HERE ANY COMMENTS REGARDING THE QUALITY CHECKS
+/* Notes:
+	1. 39 obs have more than 50 DK/NA values in the target variables.
+	2. Variable q39b_G2 has more than 40% of valid observations as DK/NA.
+	3. 7 individual(s) are flagged as speeders (1% of the sample).
+	4. 3 individual(s) have a high incidence of straight-lining (<1% of the sample).
+
+*/
 
 
 /*=================================================================================================================

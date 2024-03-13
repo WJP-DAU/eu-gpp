@@ -1,6 +1,6 @@
 /*=================================================================================================================
-Project:		EU Subnational 2023
-Routine:		GPP Data Cleaning and Harmonization 2023 (master do file)
+Project:		EU Subnational 2024
+Routine:		GPP Data Cleaning and Harmonization 2024 (master do file)
 Author(s):		Carlos Toruño 		(ctoruno@worldjusticeproject.org)
 				Natalia Rodriguez 	(nrodriguez@worldjusticeproject.org)
 Dependencies:  	World Justice Project
@@ -24,22 +24,22 @@ cls
 			// Special naming for the following companies: 
 			//		- Bilendi: write "0_Bilendi" as country_name
 			//		- IPSOS:   write "0_IPSOS" as country_name
-global country_name "Romania"
+global country_name "Luxembourg"
 
 *------ (b) What data stage is this?
 			// Pretest: 		Please input "1. PTR"
 			// Full Fieldwork:	Please input "2. FFW"
-global dataStage "1. PTR"
+global dataStage "2. FFW"
 
 *------ (c) Year
 global year 2024
 
 *------ (c) Original file name
-global dataName "Romania_PRT_20240216.sav"	
+global dataName "Luxembourg_FFW_20240306.sav"
 
 /*	IMPORTANT:
 	 1. Please confirm with the GPP team that this is INDEED the latest data file submitted by the polling company.
-	 2. Polling compnaies collecting data in multiple countries might send a consolidated dataset with all
+	 2. Polling companies collecting data in multiple countries might send a consolidated dataset with all
 	 countries together. For EVERY issue found. Evaluate if the issue is present across ALL countries or ONLY in
 	 specific countries. You will have to check for this in the console directly.
 
@@ -69,33 +69,27 @@ if (inlist("`c(username)'", "ctoruno")) {
 }
 
 *------ (b) Santiago Pardo:
-else if (inlist("`c(username)'", "santiagopardo")) {
+if (inlist("`c(username)'", "santiagopardo")) {
 	global path2SP "/Users/santiagopardo/OneDrive - World Justice Project/EU Subnational"
 	global path2GH "/Users/santiagopardo/Documents/GitHub"
 }
 
 *------ (b) Natalia Rodriguez:
-else if (inlist("`c(username)'", "nrodriguez")) {
+if (inlist("`c(username)'", "nrodriguez")) {
 	global path2SP "C:\Users\nrodriguez\OneDrive - World Justice Project\Programmatic\EU Subnational"
 	global path2GH "C:\Users\nrodriguez\OneDrive - World Justice Project\Natalia\GitHub"
 }
 
 *------ (c) Dalia Habiby:
-else if (inlist("`c(username)'", "Dhabiby")) {
+if (inlist("`c(username)'", "Dhabiby")) {
 	global path2SP "/Users/Dhabiby/World Justice Project/Research - EU Subnational"
 	global path2GH "/Users/Dhabiby/Documents/GitHub"
 }
 
-*------ (d) Artha Pillai:
-else if (inlist("`c(username)'", "apillai")) {
-	global path2SP "/Users/apillai/OneDrive - World Justice Project/EU Subnational"
-	global path2GH ""
-}
-
-*------ (e) Any other user: PLEASE INPUT YOUR PERSONAL PATH TO THE SHAREPOINT DIRECTORY:
-else {
-	global path2SP "INSERT_PATH_TO_EU_SUBNATIONAL_SHARE_POINT_HERE"
-	global path2GH "INSERT_PATH_TO_EU_SUBNATIONAL_SHARE_POINT_HERE"
+*------ (d) Allison Bostrom:
+if (inlist("`c(username)'", "abostrom")) {
+	global path2SP "/Users/abostrom/World Justice Project/Research - EU Subnational"
+	global path2GH "/Users/abostrom/Documents/GitHub/eu-gpp"
 }
 
 *--- Defining path to Data and DoFiles:
@@ -157,6 +151,12 @@ do "${path2wr}/Country-Wrangling/${dataStage}/${country_name}_wrangling${year}.d
 
 *--- Saving a testing dta file for automatically checking value labels using the EU-Copilot app:
 save "${path2data}/${dataStage}/${country_name}/0. Raw Data/${country_name}_test.dta", replace
+
+/* Note:
+	Use the previous file to check for mislabeled values using the EU-Copilot and pray that it works :happy_corgi:
+	If it doesn't work, you might have issues with the character encoding system used by the polling company and,
+	sadly, you will have to use the log file to check for mislabeled values :sad_corgi:
+*/
 
 *--- Do all variables fall within the expected range?  (Step 2)
 cls
