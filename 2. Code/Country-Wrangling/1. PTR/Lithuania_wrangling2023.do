@@ -118,7 +118,7 @@ rename g60_g`i'_`y' q60_G`i'_`y'
 }
 }
 
-foreach x of varlist q60_G1_1 q60_G1_2 q60_G1_3 q60_G2_1 q60_G2_2 q60_G2_3 q60_G3_1 q60_G3_2 q60_G3_3 {
+foreach x of varlist q60_G1_1 q60_G1_2 q60_G1_3 q60_G2_1 q60_G2_2 q60_G2_3 q60_G3_1 q60_G3_2 q60_G3_3 relig ethni paff2 {
 	rename `x' `x'_aux
 	decode `x'_aux, g(`x')
 	drop `x'_aux

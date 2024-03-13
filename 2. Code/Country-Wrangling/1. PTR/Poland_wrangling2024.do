@@ -70,12 +70,6 @@ g Strata = .
 /*=================================================================================================================
 					Dropping variables added by the polling company
 =================================================================================================================*/
-
-drop INCOM0 INCOM1 INCOM2 Q38F0 Q38F1 Q38F2 Q38f_2 Q38F_0 Q38F_1 Q38F_3 Q38G_0 Q38G_2 Q38G_3 Q38H_0 Q38H_2 Q38H_3 Q60_GO Q60_GP Q60_GQ Q60_GL Q60_GM Q60_GN Q60_GI ///
-Q60_GJ Q60_GK Q60_GF Q60_GG Q60_GH Q60_GC Q60_GD Q60_GE Q60_G9 Q60_GA Q60_GB Q60_G6 Q60_G7 Q60_G8 Q60_G3 Q60_G4 Q60_G5 Q60_G0 Q60_G1 Q60_G2 Relig_13_other ///
-RELIG0 RELIG1 RELIG2 Ethni_97_other ETHNI0 ETHNI1 ETHNI2 PAFF20 PAFF21 PAFF22
-
-drop Q14A_0 Q14A_A Q14A_B
 	
 g q60_G1_98 = .
 g q60_G1_99 = .
@@ -84,7 +78,19 @@ g q60_G2_99 = .
 g q60_G3_98 = .
 g q60_G3_99 = .
 
-drop Incomex Income__99 Q14a_12_other Q14b_1 Q14b_2 Q14b_3 Q14b_4 Q14b_5 Q14b_6 Q14b_7 Q14b_8 Q14b_9 Q14b_10 Q14b_11 Q14b_12 Q14b_12_other Q14B_0 Q14B_A Q14B_B Q14b_98 Q14b_99 Q14c_1 Q14c_2 Q14c_3 Q14c_4 Q14c_5 Q14c_6 Q14c_7 Q14c_8 Q14c_9 Q14c_10 Q14c_11 Q14c_12 Q14c_12_other Q14C_0 Q14C_A Q14C_B Q14c_98 Q14c_99 Q14d_1 Q14d_2 Q14d_3 Q14d_4 Q14d_5 Q14d_6 Q14d_7 Q14d_8 Q14d_9 Q14d_10 Q14d_11 Q14d_12 Q14d_12_other Q14D_0 Q14D_A Q14D_B Q14d_98 Q14d_99 Q14e_1 Q14e_2 Q14e_3 Q14e_4 Q14e_5 Q14e_6 Q14e_7 Q14e_8 Q14e_9 Q14e_10 Q14e_11 Q14e_12 Q14e_12_other Q14E_0 Q14E_A Q14E_B Q14e_98 Q14e_99 Q14f_1 Q14f_2 Q14f_3 Q14f_4 Q14f_5 Q14f_6 Q14f_7 Q14f_8 Q14f_9 Q14f_10 Q14f_11 Q14f_12 Q14f_12_other Q14F_0 Q14F_A Q14F_B Q14f_98 Q14f_99 Q14g_1 Q14g_2 Q14g_3 Q14g_4 Q14g_5 Q14g_6 Q14g_7 Q14g_8 Q14g_9 Q14g_10 Q14g_11 Q14g_12 Q14g_12_other Q14G_0 Q14G_A Q14G_B Q14g_98 Q14g_99 Q14h_1 Q14h_2 Q14h_3 Q14h_4 Q14h_5 Q14h_6 Q14h_7 Q14h_8 Q14h_9 Q14h_10 Q14h_11 Q14h_12 Q14h_12_other Q14H_0 Q14H_A Q14H_B Q14h_98 Q14h_99 Q14i_1 Q14i_2 Q14i_3 Q14i_4 Q14i_5 Q14i_6 Q14i_7 Q14i_8 Q14i_9 Q14i_10 Q14i_11 Q14i_12 Q14i_12_other Q14I_0 Q14I_A Q14I_B Q14i_98 Q14i_99 Q14j_1 Q14j_2 Q14j_3 Q14j_4 Q14j_5 Q14j_6 Q14j_7 Q14j_8 Q14j_9 Q14j_10 Q14j_11 Q14j_12 Q14j_12_other Q14J_0 Q14J_A Q14J_B Q14j_98 Q14j_99 Q14k_1 Q14k_2 Q14k_3 Q14k_4 Q14k_5 Q14k_6 Q14k_7 Q14k_8 Q14k_9 Q14k_10 Q14k_11 Q14k_12 Q14k_12_other Q14K_0 Q14K_A Q14K_B Q14k_98 Q14k_99 Q39_LOS G1_LOS G1_98 G1_99 Paff2_6_other
+drop Incomex Income__99 Q14a_12_other Q14b_1 Q14b_2 Q14b_3 Q14b_4 Q14b_5 Q14b_6 Q14b_7 Q14b_8 Q14b_9 Q14b_10 ///
+	Q14b_11 Q14b_12 Q14b_12_other Q14b_98 Q14b_99 Q14c_1 Q14c_2 Q14c_3 Q14c_4 Q14c_5 Q14c_6 Q14c_7 Q14c_8 Q14c_9 ///
+	Q14c_10 Q14c_11 Q14c_12 Q14c_12_other Q14c_98 Q14c_99 Q14d_1 Q14d_2 Q14d_3 Q14d_4 Q14d_5 Q14d_6 Q14d_7 Q14d_8 ///
+	Q14d_9 Q14d_10 Q14d_11 Q14d_12 Q14d_12_other Q14d_98 Q14d_99 Q14e_1 Q14e_2 Q14e_3 Q14e_4 Q14e_5 Q14e_6 Q14e_7 ///
+	Q14e_8 Q14e_9 Q14e_10 Q14e_11 Q14e_12 Q14e_12_other Q14e_98 Q14e_99 Q14f_1 Q14f_2 Q14f_3 Q14f_4 Q14f_5 Q14f_6 ///
+	Q14f_7 Q14f_8 Q14f_9 Q14f_10 Q14f_11 Q14f_12 Q14f_12_other Q14f_98 Q14f_99 Q14g_1 Q14g_2 Q14g_3 Q14g_4 Q14g_5 ///
+	Q14g_6 Q14g_7 Q14g_8 Q14g_9 Q14g_10 Q14g_11 Q14g_12 Q14g_12_other Q14g_98 Q14g_99 Q14h_1 Q14h_2 Q14h_3 Q14h_4 ///
+	Q14h_5 Q14h_6 Q14h_7 Q14h_8 Q14h_9 Q14h_10 Q14h_11 Q14h_12 Q14h_12_other Q14h_98 Q14h_99 Q14i_1 Q14i_2 Q14i_3 ///
+	Q14i_4 Q14i_5 Q14i_6 Q14i_7 Q14i_8 Q14i_9 Q14i_10 Q14i_11 Q14i_12 Q14i_12_other Q14i_98 Q14i_99 Q14j_1 Q14j_2 ///
+	Q14j_3 Q14j_4 Q14j_5 Q14j_6 Q14j_7 Q14j_8 Q14j_9 Q14j_10 Q14j_11 Q14j_12 Q14j_12_other Q14j_98 Q14j_99 Q14k_1 ///
+	Q14k_2 Q14k_3 Q14k_4 Q14k_5 Q14k_6 Q14k_7 Q14k_8 Q14k_9 Q14k_10 Q14k_11 Q14k_12 Q14k_12_other Q14k_98 Q14k_99 ///
+	Q38f_2 Q39_LOS G1_LOS G1_98 G1_99 Relig_13_other Ethni_97_other Paff2_6_other
+
 
 /*=================================================================================================================
 					Renaming/Recoding variables
@@ -157,6 +163,12 @@ replace Interview_length=Interview_length/60
 	- Check that multiple choice questions (q14, q21, q36) are correctly encoded as binary (1 | 2)
 	- Make sure that the interview lenght is in minutes
 */
+
+foreach x of varlist relig ethni paff2 {
+	rename `x' `x'_aux
+	decode `x'_aux, g(`x')
+	drop `x'_aux
+}
 
 
 /*=================================================================================================================

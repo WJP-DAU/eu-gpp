@@ -299,6 +299,11 @@ rename tot_time Interview_length
 
 // Note: We have missing values for the whole q6 set. Everyone should have answered these. 
 
+foreach x of varlist relig ethni paff2 {
+	rename `x' `x'_aux
+	decode `x'_aux, g(`x')
+	drop `x'_aux
+}
 
 /*=================================================================================================================
 					Special Cases (Only for FULL FIELDWORK)
