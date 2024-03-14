@@ -95,7 +95,7 @@ rename Politics politics
 		- City
 		- Region
 		- Strata / PSU / SSU
-		- ethni / relig / paff2 (only for the pretest)
+		- ethni / relig / paff2 -> REMEMBER TO DECODE!!!
 		- rol open ended questions
 		
 		You can do this by running:

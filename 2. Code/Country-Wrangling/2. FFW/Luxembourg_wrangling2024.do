@@ -80,6 +80,8 @@ foreach x of varlist relig ethni paff2 q60* {
 	replace `x' = "No answer"  if `x' == "Prefer not to say"
 }
 
+replace income_cur = "Euros"
+
 foreach x of varlist q33b q38e q38f q38g_1 q38h_1 {
 	replace `x' = -8888 if `x' == 8888
 	replace `x' = -9999 if `x' == 9999

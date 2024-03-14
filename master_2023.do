@@ -276,6 +276,23 @@ do "${path2dos}/Routines/val_labels.do"
 
 
 /*=================================================================================================================
+					Harmonizing string variables
+=================================================================================================================*/
+
+*--- Dropping KNW_*_98 & KNW_*_99
+foreach x in rol justice governance {
+	replace KNW_`x'_1 = KNW_`x'_98 if KNW_`x'_1 == "" & KNW_`x'_98 != ""
+	replace KNW_`x'_1 = KNW_`x'_99 if KNW_`x'_1 == "" & KNW_`x'_99 != ""
+	drop KNW_`x'_98 KNW_`x'_99
+}
+
+*--- Recasting strings (so we don't have to force the merge)
+recast str200 nuts_ltn income_text KNW_*  
+recast str100 country_year_id relig ethni voteintention city region PSU SSU Strata
+recast str50 country_name_ltn country_name_off income_cur method income_group
+recast str10 country_code_nuts country_code_iso nuts_id income_time AJP_problem
+
+/*=================================================================================================================
 					Saving Clean Data
 =================================================================================================================*/
 

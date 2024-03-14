@@ -35,17 +35,6 @@ foreach x in AJD_adviser AJE_description DIS_exp {
 	drop `x'_98
 }
 
-*--- Transforming specific variables to string
-if inlist("${dataStage}", "2. FFW") {
-	rename ethni ethni2drop
-	decode ethni2drop, gen(ethni)
-
-	rename relig relig2drop 
-	decode relig2drop, gen(relig)
-
-	drop ethni2drop relig2drop
-}
-
 *--- Generating new variables
 egen country_year = concat(country_name_ltn year)
 
@@ -415,15 +404,12 @@ rename ROL_civilobedience_imp EU_q59j
 rename KNW_rol_1 EU_q60_G1_1
 rename KNW_rol_2 EU_q60_G1_2
 rename KNW_rol_3 EU_q60_G1_3
-rename KNW_rol_99 EU_q60_G1_99
 rename KNW_justice_1 EU_q60_G2_1
 rename KNW_justice_2 EU_q60_G2_2
 rename KNW_justice_3 EU_q60_G2_3
-rename KNW_justice_99 EU_q60_G2_99
 rename KNW_governance_1 EU_q60_G3_1
 rename KNW_governance_2 EU_q60_G3_2
 rename KNW_governance_3 EU_q60_G3_3
-rename KNW_governance_99 EU_q60_G3_99
 rename polid EU_paff1
 rename voteintention EU_paff2
 rename A4 A5
