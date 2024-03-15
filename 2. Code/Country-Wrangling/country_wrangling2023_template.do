@@ -46,7 +46,7 @@ protocol guidelines and use the interactive codebook tool.
 =================================================================================================================*/
 
 /* Note:
-	Face-to-Face polls will be missing the following variables (just uncomment):
+	Online polls will be missing the following variables (just uncomment):
 	
 	forvalues j = 1/3 {
 		g q60_G`j'_98 = ""
