@@ -14,7 +14,7 @@ EU-GPP cleaning and validation protocol.
 clear
 
 *--- Changing working directory
-cd "${path2SP}/EU-S Data/GPP/1. Data/${dataStage}/${country_name}/0. Raw Data/"
+cd "${path2SP}/EU-S Data/eu-gpp/1. Data/${dataStage}/${country_name}/0. Raw Data/"
 
 *--- Analyzing character encoding
 unicode analyze "${cname}_${year}_raw.dta"
