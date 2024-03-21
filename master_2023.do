@@ -24,7 +24,7 @@ cls
 			// Special naming for the following companies: 
 			//		- Bilendi: write "0_Bilendi" as country_name
 			//		- IPSOS:   write "0_IPSOS" as country_name
-global country_name "Luxembourg"
+global country_name "Bulgaria"
 
 *------ (b) What data stage is this?
 			// Pretest: 		Please input "1. PTR"
@@ -35,7 +35,7 @@ global dataStage "2. FFW"
 global year 2024
 
 *------ (c) Original file name
-global dataName "Luxembourg_FFW_20240306.sav"
+global dataName "BULGARIA_FFW_20240315.sav"
 
 /*	IMPORTANT:
 	 1. Please confirm with the GPP team that this is INDEED the latest data file submitted by the polling company.
@@ -89,7 +89,7 @@ if (inlist("`c(username)'", "Dhabiby")) {
 *------ (d) Allison Bostrom:
 if (inlist("`c(username)'", "abostrom")) {
 	global path2SP "/Users/abostrom/World Justice Project/Research - EU Subnational"
-	global path2GH "/Users/abostrom/Documents/GitHub/eu-gpp"
+	global path2GH "/Users/abostrom/Documents/GitHub"
 }
 
 *--- Defining path to Data and DoFiles:
