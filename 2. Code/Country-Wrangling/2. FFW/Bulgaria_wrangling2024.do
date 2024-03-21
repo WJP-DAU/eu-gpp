@@ -100,6 +100,9 @@ replace relig="Other" if relig=="Orher"
 /* Label 9 for q31 was incorrect - it had the text for choice 8 */
 label define labels20 9 "You and/or all other parties giving up trying to resolve the problem", modify
 
+/* Update income labels with ranges */
+label define labels1 1 "<750 BGN/month" 2 "751 - 1000 BGN/month" 3 "1001 - 1300 BGN/month" 4 "1301 - 1700 BGN/month" 5 "1701+ BGN/month", modify
+
 /* Notes:
 	1. Always check that Gend is correctly coded (Male == 1)(Female == 2)(Nonbin == 3)(Not recog == 4)
 	
