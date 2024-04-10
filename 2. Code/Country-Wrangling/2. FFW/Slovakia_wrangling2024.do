@@ -113,21 +113,190 @@ replace nuts_id = "SK04" if region == 4
 	gen ethni_new = subinstr(ethni, " nationality", "", .)
 	drop ethni
 	rename ethni_new ethni
+	
+	/* Code DKNA */
+	
+	label define DKNA -8888 "Don't know" -9999 "No answer"
+
+	label values q38g_1 DKNA
+
+	label values q33b DKNA
+
+	label values q38e DKNA
+
+	label values q38f DKNA
+
+	label values q38h_1 DKNA
+
+	label values Income2 DKNA
+
+	/* Update income labels with ranges */
+label define labels1 1 "<1100 euros/month" 2 "1100 - 1600 euros/month" 3 "1601 - 2000 euros/month" 4 "2001 - 2400 euros/month" 5 ">2400 euros/month", modify 
+	
 /*	
 		
-	3. Please check that the DK/NA values for q33b, q38e, q38f, q38g_1, q38h_1, and Income2 are encoded as:
-		- "Don't know" = -8888
-		- "No Answer"  = -9999
-		
-		You can check for the previous by running:
-			numlabel, add
-			foreach x of varlist q33b q38e q38f q38g_1 q38h_1 Income2 {
-				tab `x'
-			}
 				
-	7. Check the dweight
+	7. Check the dweight -- note: no dweight, several other weights instead (ask TO about this)
 	
 */
+
+/* Correct caps for G1/G2 */
+foreach var of varlist q39* q40* q41* q42* q43* q44* q45* q46* q47* q48* q49* q50* q51* q52* q53* q54* q55* q56* q57* q60* { 
+    local newname = subinstr("`var'", "g", "G", .)
+    rename `var' `newname'
+}
+
+/* Revert the vars that have a lowercase g in them in addition to the capital */
+rename q39G_G1 q39g_G1
+rename q39G_G2 q39g_G2
+rename q43G_G1 q43g_G1
+rename q43G_G2 q43g_G2
+rename q44G_G1 q44g_G1
+rename q44G_G2 q44g_G2
+
+/* Correct caps for A's */
+foreach var of varlist a* {
+	local newname = subinstr("`var'", "a", "A", .)
+	rename `var' `newname'
+}
+
+/* Revert age vars */
+rename Age age
+rename Agegroup agegroup
+
+/* Correct caps for q15 */
+foreach var of varlist q15_a* {
+	local newname = subinstr("`var'", "a", "A", .)
+	rename `var' `newname'
+}
+
+foreach var of varlist q15_b* {
+	local newname = subinstr("`var'", "b", "B", .)
+	rename `var' `newname'
+}
+
+foreach var of varlist q15_c* {
+	local newname = subinstr("`var'", "c", "C", .)
+	rename `var' `newname'
+}
+
+foreach var of varlist q15_d* {
+	local newname = subinstr("`var'", "d", "D", .)
+	rename `var' `newname'
+}
+
+foreach var of varlist q15_e* {
+	local newname = subinstr("`var'", "e", "E", .)
+	rename `var' `newname'
+}
+
+foreach var of varlist q15_f* {
+	local newname = subinstr("`var'", "f", "F", .)
+	rename `var' `newname'
+}
+
+foreach var of varlist q15_g* {
+	local newname = subinstr("`var'", "g", "G", .)
+	rename `var' `newname'
+}
+
+foreach var of varlist q15_h* {
+	local newname = subinstr("`var'", "h", "H", .)
+	rename `var' `newname'
+}
+
+foreach var of varlist q15_i* {
+	local newname = subinstr("`var'", "i", "I", .)
+	rename `var' `newname'
+}
+
+foreach var of varlist q15_j* {
+	local newname = subinstr("`var'", "j", "J", .)
+	rename `var' `newname'
+}
+
+foreach var of varlist q15_k* {
+	local newname = subinstr("`var'", "k", "K", .)
+	rename `var' `newname'
+}
+
+foreach var of varlist q15_l* {
+	local newname = subinstr("`var'", "l", "L", .)
+	rename `var' `newname'
+}
+
+/* Correct caps for urban */
+rename urban Urban
+
+/* Correct caps for q16 */
+foreach var of varlist q16_a* {
+	local newname = subinstr("`var'", "a", "A", .)
+	rename `var' `newname'
+}
+
+foreach var of varlist q16_b* {
+	local newname = subinstr("`var'", "b", "B", .)
+	rename `var' `newname'
+}
+
+foreach var of varlist q16_c* {
+	local newname = subinstr("`var'", "c", "C", .)
+	rename `var' `newname'
+}
+
+foreach var of varlist q16_d* {
+	local newname = subinstr("`var'", "d", "D", .)
+	rename `var' `newname'
+}
+
+foreach var of varlist q16_e* {
+	local newname = subinstr("`var'", "e", "E", .)
+	rename `var' `newname'
+}
+
+foreach var of varlist q16_f* {
+	local newname = subinstr("`var'", "f", "F", .)
+	rename `var' `newname'
+}
+
+foreach var of varlist q16_g* {
+	local newname = subinstr("`var'", "g", "G", .)
+	rename `var' `newname'
+}
+
+foreach var of varlist q16_h* {
+	local newname = subinstr("`var'", "h", "H", .)
+	rename `var' `newname'
+}
+
+foreach var of varlist q16_i* {
+	local newname = subinstr("`var'", "i", "I", .)
+	rename `var' `newname'
+}
+
+foreach var of varlist q16_j* {
+	local newname = subinstr("`var'", "j", "J", .)
+	rename `var' `newname'
+}
+
+foreach var of varlist q16_k* {
+	local newname = subinstr("`var'", "k", "K", .)
+	rename `var' `newname'
+}
+
+foreach var of varlist q16_l* {
+	local newname = subinstr("`var'", "l", "L", .)
+	rename `var' `newname'
+}
+
+/* Prevent code from running into an error with interview length, city */
+rename interview_length Interview_length
+drop City
+rename city City
+
+/* Create an empty var for dweight until we get word from TO */
+generate dweight = .
+
 
 
 /*=================================================================================================================
@@ -154,7 +323,16 @@ replace ethni_groups = 1 if ethni == "Slovak"
 					Comments on the quality checks
 =================================================================================================================*/
 
-* WRITE HERE ANY COMMENTS REGARDING THE QUALITY CHECKS
+/*
+54 individual(s) have a high incidence of straight-lining (small relative to total sample of 2200 ~ 2-3%)
+
+227 have >50 DKNA (small relative to total sample of 2200 ~ 10%)
+
+Females overrepresented in DKNA overall (57% of DKNA but 53% of target sample) and high incidence of DKNA (67%) -- I don't think this is too surprising
+
+Lower quintiles (esp 1 & 2) are overrepresented in DKNA (esp high incidence - 31% and 30%)
+-- again, not overly concerning
+*/
 
 
 /*=================================================================================================================
