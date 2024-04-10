@@ -49,7 +49,7 @@ forvalues j = 1/3 {
 					Renaming/Recoding variables
 =================================================================================================================*/
 
-foreach x in labels353 labels354 labels367 {
+foreach x in labels3 labels353 labels354 labels367 {
 	label define `x' 98 "Don't know" 99 "No answer", modify	
 }
 foreach x of varlist income_cur income_time City Region ethni relig paff2 {
