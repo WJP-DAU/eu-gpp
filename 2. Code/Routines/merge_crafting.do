@@ -74,7 +74,7 @@ global path2wr "${path2GH}/eu-gpp/2. Code"
 					Merging individual datasets
 =================================================================================================================*/
 
-cd "${path2data}/1. PTR"
+cd "${path2data}/2. FFW"
 local subdirs : dir . dirs "*", respectcase
 local c = 1
 foreach country in `subdirs' {
@@ -82,14 +82,14 @@ foreach country in `subdirs' {
 		dis "============"
 		dis "`country'"
 		dis "============"
-		qui cd "${path2data}/1. PTR/`country'/1. Clean Data"
+		qui cd "${path2data}/2. FFW/`country'/1. Clean Data"
 		local target : dir . files "*_clean.dta", respectcase
 		foreach td in `target' {
 			if (length("`td'") > 0) {
-				use "${path2data}/1. PTR/`country'/1. Clean Data/`td'", clear
+				use "${path2data}/2. FFW/`country'/1. Clean Data/`td'", clear
 				 recast str150 relig ethni voteintention
 				if (`c' > 1) {
-					append using "${path2data}/3. Merge/EU_GPP_2024.dta", force
+					append using "${path2data}/3. Merge/EU_GPP_2024.dta"
 				}
 				save "${path2data}/3. Merge/EU_GPP_2024.dta", replace
 				local ++c
@@ -97,10 +97,10 @@ foreach country in `subdirs' {
 		}
 	}
 }
-drop psu ssu count0 count1 count2 count3 count4 count5 q60_*
+
 
 /*=================================================================================================================
-					Saving data
+					Extra Cleaning
 =================================================================================================================*/
 sort country_name_ltn nuts_id id
 save "${path2data}/3. Merge/EU_GPP_2024.dta", replace
