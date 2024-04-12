@@ -42,13 +42,17 @@ protocol guidelines and use the interactive codebook tool.
 
 
 
-rename *, lower
-decode region, g(nuts_ltn)
+/*rename *, lower*/
+decode Region, g(nuts_ltn)
 g nuts_id = ""
-replace nuts_id = "SK01" if region == 1
-replace nuts_id = "SK02" if region == 2
-replace nuts_id = "SK03" if region == 3
-replace nuts_id = "SK04" if region == 4
+replace nuts_id = "SK010" if Region == 2
+replace nuts_id = "SK021" if Region == 7
+replace nuts_id = "SK022" if Region == 6
+replace nuts_id = "SK023" if Region == 4
+replace nuts_id = "SK031" if Region == 8
+replace nuts_id = "SK032" if Region == 1
+replace nuts_id = "SK041" if Region == 5
+replace nuts_id = "SK042" if Region == 3
 
 /*=================================================================================================================
 					Adding missing variables from the data map
@@ -61,7 +65,8 @@ replace nuts_id = "SK04" if region == 4
 		g q60_G`j'_98 = ""
 		g q60_G`j'_99 = ""
 	}
-	g City = ""
+	/* Drop these because they're empty anyway and cause problems later */
+	drop PSU SSU
 	foreach x in PSU SSU Strata {
 		g `x' = ""
 	}
@@ -96,12 +101,7 @@ replace nuts_id = "SK04" if region == 4
 /* Notes:
 	No non-binary or do not recognize yourself responses.
 	
-	Fix wrong capitalization:
-*/
-		rename region Region
-		rename income2 Income2
 			
-/*			
 		Decode categorical variables: */
 			foreach x of varlist relig ethni paff2 Region  {
 				rename `x' `x'_aux
@@ -139,160 +139,6 @@ label define labels1 1 "<1100 euros/month" 2 "1100 - 1600 euros/month" 3 "1601 -
 	7. Check the dweight -- note: no dweight, several other weights instead (ask TO about this)
 	
 */
-
-/* Correct caps for G1/G2 */
-foreach var of varlist q39* q40* q41* q42* q43* q44* q45* q46* q47* q48* q49* q50* q51* q52* q53* q54* q55* q56* q57* q60* { 
-    local newname = subinstr("`var'", "g", "G", .)
-    rename `var' `newname'
-}
-
-/* Revert the vars that have a lowercase g in them in addition to the capital */
-rename q39G_G1 q39g_G1
-rename q39G_G2 q39g_G2
-rename q43G_G1 q43g_G1
-rename q43G_G2 q43g_G2
-rename q44G_G1 q44g_G1
-rename q44G_G2 q44g_G2
-
-/* Correct caps for A's */
-foreach var of varlist a* {
-	local newname = subinstr("`var'", "a", "A", .)
-	rename `var' `newname'
-}
-
-/* Revert age vars */
-rename Age age
-rename Agegroup agegroup
-
-/* Correct caps for q15 */
-foreach var of varlist q15_a* {
-	local newname = subinstr("`var'", "a", "A", .)
-	rename `var' `newname'
-}
-
-foreach var of varlist q15_b* {
-	local newname = subinstr("`var'", "b", "B", .)
-	rename `var' `newname'
-}
-
-foreach var of varlist q15_c* {
-	local newname = subinstr("`var'", "c", "C", .)
-	rename `var' `newname'
-}
-
-foreach var of varlist q15_d* {
-	local newname = subinstr("`var'", "d", "D", .)
-	rename `var' `newname'
-}
-
-foreach var of varlist q15_e* {
-	local newname = subinstr("`var'", "e", "E", .)
-	rename `var' `newname'
-}
-
-foreach var of varlist q15_f* {
-	local newname = subinstr("`var'", "f", "F", .)
-	rename `var' `newname'
-}
-
-foreach var of varlist q15_g* {
-	local newname = subinstr("`var'", "g", "G", .)
-	rename `var' `newname'
-}
-
-foreach var of varlist q15_h* {
-	local newname = subinstr("`var'", "h", "H", .)
-	rename `var' `newname'
-}
-
-foreach var of varlist q15_i* {
-	local newname = subinstr("`var'", "i", "I", .)
-	rename `var' `newname'
-}
-
-foreach var of varlist q15_j* {
-	local newname = subinstr("`var'", "j", "J", .)
-	rename `var' `newname'
-}
-
-foreach var of varlist q15_k* {
-	local newname = subinstr("`var'", "k", "K", .)
-	rename `var' `newname'
-}
-
-foreach var of varlist q15_l* {
-	local newname = subinstr("`var'", "l", "L", .)
-	rename `var' `newname'
-}
-
-/* Correct caps for urban */
-rename urban Urban
-
-/* Correct caps for q16 */
-foreach var of varlist q16_a* {
-	local newname = subinstr("`var'", "a", "A", .)
-	rename `var' `newname'
-}
-
-foreach var of varlist q16_b* {
-	local newname = subinstr("`var'", "b", "B", .)
-	rename `var' `newname'
-}
-
-foreach var of varlist q16_c* {
-	local newname = subinstr("`var'", "c", "C", .)
-	rename `var' `newname'
-}
-
-foreach var of varlist q16_d* {
-	local newname = subinstr("`var'", "d", "D", .)
-	rename `var' `newname'
-}
-
-foreach var of varlist q16_e* {
-	local newname = subinstr("`var'", "e", "E", .)
-	rename `var' `newname'
-}
-
-foreach var of varlist q16_f* {
-	local newname = subinstr("`var'", "f", "F", .)
-	rename `var' `newname'
-}
-
-foreach var of varlist q16_g* {
-	local newname = subinstr("`var'", "g", "G", .)
-	rename `var' `newname'
-}
-
-foreach var of varlist q16_h* {
-	local newname = subinstr("`var'", "h", "H", .)
-	rename `var' `newname'
-}
-
-foreach var of varlist q16_i* {
-	local newname = subinstr("`var'", "i", "I", .)
-	rename `var' `newname'
-}
-
-foreach var of varlist q16_j* {
-	local newname = subinstr("`var'", "j", "J", .)
-	rename `var' `newname'
-}
-
-foreach var of varlist q16_k* {
-	local newname = subinstr("`var'", "k", "K", .)
-	rename `var' `newname'
-}
-
-foreach var of varlist q16_l* {
-	local newname = subinstr("`var'", "l", "L", .)
-	rename `var' `newname'
-}
-
-/* Prevent code from running into an error with interview length, city */
-rename interview_length Interview_length
-drop City
-rename city City
 
 /* Create an empty var for dweight until we get word from TO */
 generate dweight = .
