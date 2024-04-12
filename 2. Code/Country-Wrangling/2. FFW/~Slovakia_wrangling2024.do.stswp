@@ -61,8 +61,8 @@ replace nuts_ltn = "Západné Slovensko" if Region == 6
 replace nuts_ltn = "Západné Slovensko" if Region == 7
 replace nuts_ltn = "Stredné Slovensko" if Region == 1
 replace nuts_ltn = "Stredné Slovensko" if Region == 8
-replace nuts_ltn = "Východné Slovensko" if Region == 3
-replace nuts_ltn = "Východné Slovensko" if Region == 5
+replace nuts_ltn = "Východné Slovensko" if Region == 1
+replace nuts_ltn = "Východné Slovensko" if Region == 8
 
 
 
