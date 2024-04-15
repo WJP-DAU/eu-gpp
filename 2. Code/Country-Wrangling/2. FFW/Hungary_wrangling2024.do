@@ -187,9 +187,8 @@ tostring PSU SSU, replace
 =================================================================================================================*/
 
 *--- Vote Intention & Incumbent Political Party: 
-*NOTE: THIS IS WRONG!!! COME BACK TO IT!
 g incpp = 0
-replace incpp = 1 if paff2 == ""
+replace incpp = 1 if paff2 == "Alliance of Young Democrats"
 
 *--- Ethnicity groups:
 g ethni_groups = 0
