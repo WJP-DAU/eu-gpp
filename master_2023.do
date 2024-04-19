@@ -89,7 +89,7 @@ if (inlist("`c(username)'", "Dhabiby")) {
 *------ (d) Allison Bostrom:
 if (inlist("`c(username)'", "abostrom")) {
 	global path2SP "/Users/abostrom/World Justice Project/Research - EU Subnational"
-	global path2GH "/Users/abostrom/Documents/GitHub"
+	global path2GH "/Users/abostrom/OneDrive - World Justice Project/Documents/GitHub"
 }
 
 *--- Defining path to Data and DoFiles:

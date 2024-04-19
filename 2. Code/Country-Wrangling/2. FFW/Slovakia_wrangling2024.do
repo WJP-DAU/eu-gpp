@@ -148,12 +148,9 @@ label define labels1 1 "<1100 euros/month" 2 "1100 - 1600 euros/month" 3 "1601 -
 /*	
 		
 				
-	7. Check the dweight -- note: no dweight, several other weights instead (ask TO about this)
+	7. dweight was named weight_national_inc (TO confirmed this is the one to use) */
 	
-*/
-
-/* Create an empty var for dweight until we get word from TO */
-generate dweight = .
+	rename weight_national_inc dweight
 
 
 
