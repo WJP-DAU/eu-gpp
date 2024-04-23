@@ -57,11 +57,16 @@ foreach x of varlist income_cur income_time City Region ethni relig paff2 {
 	decode `x'_aux, g(`x')
 	drop `x'_aux
 }
-tostring PSU SSU Strata, replace
+tostring PSU SSU, replace
 foreach x of varlist q60_G* {
 	replace `x' = "Don't know" if `x' == "98"
 	replace `x' = "No answer"  if `x' == "99"
 }
+drop Strata
+g aux_1 = " - "
+decode Urban, g(aux_2)
+egen Strata = concat(Region aux_1 aux_2)
+drop aux_*
 
 /* Notes:
 		- Q60 answers are not in english
@@ -102,7 +107,7 @@ replace q15_K2 = 1 if id == "483"
 
 *--- Issues with the problem selection
 replace q15_F1 = 1 if id == "349"
-replace q15_A1 = 0 if id == "979"
+replace q15_A1 = 2 if id == "979"
 replace q15_G3 = 1 if id == "557"
 replace q15_B4 = 1 if id == "674"
 
