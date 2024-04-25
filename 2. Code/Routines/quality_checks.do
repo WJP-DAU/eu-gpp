@@ -20,15 +20,15 @@ GPP merge data file.
 log using "${path2data}/${dataStage}/${country_name}/1. Clean Data/${country_name}_Demographics.log", replace text
 
 recode age (18/24 = 1 "18-24")(25/35 = 2 "25-35")(36/50 = 3 "36-50")(50/max = 4 "+50"), g(age_groups)
-tab	nuts_id gend, row miss
-tab	nuts_id age_groups, row miss
-tab	nuts_id relig, row miss
-tab	nuts_id ethni, row miss
-tab	nuts_id nation, row miss
-tab	nuts_id income_quintile, row miss
-tab	nuts_id fin, row miss
-tab	nuts_id edu, row miss
-tab	nuts_id emp, row miss
+bys country_name_ltn: tab nuts_id gend, row miss
+bys country_name_ltn: tab nuts_id age_groups, row miss
+bys country_name_ltn: tab nuts_id relig, row miss
+bys country_name_ltn: tab nuts_id ethni, row miss
+bys country_name_ltn: tab nuts_id nation, row miss
+bys country_name_ltn: tab nuts_id income_quintile, row miss
+bys country_name_ltn: tab nuts_id fin, row miss
+bys country_name_ltn: tab nuts_id edu, row miss
+bys country_name_ltn: tab nuts_id emp, row miss
 
 log close
 
@@ -42,7 +42,7 @@ egen DKNA = anycount(	TRT_* ATC_* COR_* IPR_* IRE_* SEC_* ///
 						CPA_* CPB_* LEP_* CJP_* CTZ_* PAB_* JSE_* ROL_*), values(98 99)
 
 *--- Overall count
-qui inspect DKNA if DKNA > 45
+qui inspect DKNA if DKNA > 50
 if r(N) > 0 {
 	di as error r(N) " obs have more than 50 DK/NA values in the target variables."
 	bys country_name_ltn: list id if DKNA > 50
@@ -51,7 +51,7 @@ if r(N) > 0 {
 *--- Disaggregated count
 recode DKNA (0/30 = 0 "Low incidence")(31/max = 1 "High Incidence"), g(DKNA_bin)
 foreach x of varlist gend age_groups relig ethni income_quintile edu {
-	tab DKNA_bin `x', row
+	bys country_name_ltn: tab DKNA_bin `x', row
 }
 drop DKNA DKNA_bin age_groups
 

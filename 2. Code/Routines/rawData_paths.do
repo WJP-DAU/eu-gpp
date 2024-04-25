@@ -71,7 +71,13 @@ if inlist("${dataStage}", "2. FFW") {
 
 *--- RAW DATA PATH
 if inlist("${country_name}", "0_Bilendi", "0_IPSOS") {
-	global RD_path "${path2SP}/EU Subnational GPP/Polling Companies/${company}/05. Pretest Data/Original"
+	if inlist("${dataStage}", "1. PTR") {
+		global path_aux = "05. Pretest Data"
+	}
+	if inlist("${dataStage}", "2. FFW") {
+		global path_aux = "06. Final Data"
+	}
+	global RD_path "${path2SP}/EU Subnational GPP/Polling Companies/${company}/${path_aux}/Original"
 }
 else if inlist("${multi}", "YES") {
 	global RD_path "${path2SP}/EU Subnational GPP/Polling Companies/${company}/${country_name}/${path_aux}/Original"

@@ -24,7 +24,7 @@ cls
 			// Special naming for the following companies: 
 			//		- Bilendi: write "0_Bilendi" as country_name
 			//		- IPSOS:   write "0_IPSOS" as country_name
-global country_name "Slovakia"
+global country_name "0_IPSOS"
 
 *------ (b) What data stage is this?
 			// Pretest: 		Please input "1. PTR"
@@ -35,7 +35,7 @@ global dataStage "2. FFW"
 global year 2024
 
 *------ (c) Original file name
-global dataName "Slovakia_FFW_20240311.sav"
+global dataName "Ipsos_FFW_20240424.sav"
 
 /*	IMPORTANT:
 	 1. Please confirm with the GPP team that this is INDEED the latest data file submitted by the polling company.
@@ -249,6 +249,9 @@ do "${path2dos}/Routines/quality_checks.do"
 /* Note:
 	Search for RED ERROR messages in the console after running the quality checks.
 	Pay attention to the tabs dissaggregating the DKNA by sociodemographic (NO RED MESSAGE HERE, so pay attention)
+	
+	You might need to run the quality_checks do file in chunks for IPSOS and Bilendi. Results are too long to
+	display in the console from top to bottom.
 */
 
 
