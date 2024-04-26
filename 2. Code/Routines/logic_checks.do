@@ -793,11 +793,11 @@ if abs(`a' - `b') > 0.1 {
 	di as error "Unbalanced groups. Please check randomization in the Institutional Performance module"
 }
 
-local c = mat_CP[1,1] / `t'
+local c = mat_IP[1,1] / `t'
 if abs(`c') > 0 {
 	di as error "`c'% of the sample DID NOT answered either option of the Institutional Performance module"
 } 
-local d = mat_CP[2,2] / `t'
+local d = mat_IP[2,2] / `t'
 if abs(`d') > 0 {
 	di as error "`d'% of the sample answered BOTH options of the Institutional Performance module"
 } 
