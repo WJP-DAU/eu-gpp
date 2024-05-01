@@ -70,7 +70,7 @@ label define nuts_id
 	22 "ES1" 20 "ES2" 7 "ES3" 6 "ES4" 10 "ES5" 34 "ES6" 4 "ES7"
 	
 	/* Sweden */
-	38 "SE1" 35 "SE2" 23 "SE1"
+	38 "SE1" 35 "SE2" 23 "SE3"
 	
 	, replace
 ;
