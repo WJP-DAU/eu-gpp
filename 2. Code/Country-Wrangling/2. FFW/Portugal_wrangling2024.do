@@ -95,7 +95,7 @@ replace ethni_groups = 1 if ethni == "Português"
 =================================================================================================================*/
 
 /* Notes:
-	1. 73 obs have more than 50 DK/NA values in the target variables (<5%)
+	1. 78 obs have more than 50 DK/NA values in the target variables (<5%)
 	2. 49 individual(s) have a high difficulty score (<5%)
 */
 
