@@ -24,7 +24,7 @@ cls
 			// Special naming for the following companies: 
 			//		- Bilendi: write "0_Bilendi" as country_name
 			//		- IPSOS:   write "0_IPSOS" as country_name
-global country_name "0_Bilendi"
+global country_name "Greece"
 
 *------ (b) What data stage is this?
 			// Pretest: 		Please input "1. PTR"
@@ -35,7 +35,7 @@ global dataStage "2. FFW"
 global year 2024
 
 *------ (c) Original file name
-global dataName "0_Bilendi_FFW_20240429.sav"
+global dataName "GREECE_FFW_20240503.sav"
 
 /*	IMPORTANT:
 	 1. Please confirm with the GPP team that this is INDEED the latest data file submitted by the polling company.
