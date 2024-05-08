@@ -103,4 +103,7 @@ foreach country in `subdirs' {
 					Extra Cleaning
 =================================================================================================================*/
 sort country_name_ltn nuts_id id
+drop NUTS2 agegroup weight_nuts2_1 weight_nuts2_2 weight_nuts2_3 weight_nuts2_4 weight_national q60_G1r1_OE ///
+	Q60_G4 q60_G1r2_OE q60_G1r3_OE q60_G2r1_OE q60_G2r2_OE Q60_G3 q60_G2r3_OE Q60_G2 q60_G3r1_OE q60_G3r2_OE ///
+	Q60_G0 Q60_G1 q60_G3r3_OE Weight2 weight_nuts1_1 weight_nuts1_2 weight_nuts1_3
 save "${path2data}/3. Merge/EU_GPP_2024.dta", replace
