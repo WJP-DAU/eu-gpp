@@ -292,6 +292,7 @@ Then saw AJD_expert_adviser.
 Also did not see the discrimination experience questions despite answering Yes to q13b.
 Simplest solution is to replace AJD_inst_advice with No and to replace all of q14 with NA.
 */
+/*
 foreach x of varlist q20 q22 q25 q26 {
 	replace `x' = . in 1997
 }
@@ -300,7 +301,7 @@ foreach x of varlist q14* {
 	replace `x' = 99 in 1997
 }
 
-
+*/
 
 /* Obs 204 and 982 saw q35 when they should not have, so remove those obs */
 replace q35 = . in 204
@@ -310,11 +311,12 @@ replace q35 = . in 982
 replace wagreement = . in 1580
 replace wagreement = . in 1676
 
-/* Obs 361, 741, 1827, 1980 answered No to B2 but gave responses to B3 - change B2 responses to Yes */
+/* Obs 361, 741, 1827, 1980, 1981 answered No to B2 but gave responses to B3 - change B2 responses to Yes */
 replace B2 = 1 in 361
 replace B2 = 1 in 741
 replace B2 = 1 in 1827
-replace B2 = 1 in 1980
+//replace B2 = 1 in 1980
+replace B2 = 1 in 1981
 
 
 
@@ -325,6 +327,8 @@ replace B2 = 1 in 1980
 =================================================================================================================*/
 
 * WRITE HERE ANY COMMENTS REGARDING THE QUALITY CHECKS
+
+/* DKNA is higher for females and higher ages groups */
 
 
 /*=================================================================================================================
