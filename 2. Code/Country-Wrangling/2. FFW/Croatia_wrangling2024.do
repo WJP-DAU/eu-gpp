@@ -105,6 +105,7 @@ replace ethni_groups = 1 if ethni == "Croat"
 replace wagreement = 99 if (work == 99 & wagreement == .)
 
 // 24 people responded NA to A1, coded as 99 - could replace with missing?
+replace A1 = -9999 if A1 == 99
 
 // Row 1396 (country_year_id Croatia_2024_1396) had AJP_problem = B3 even though they responded DK for B3 severity and 5 for F1 severity
 
