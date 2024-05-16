@@ -35,7 +35,7 @@ global dataStage "2. FFW"
 global year 2024
 
 *------ (c) Original file name
-global dataName "Croatia_FFW_20240515.sav"
+global dataName "Croatia_FFW_2024051.sav"
 
 /*	IMPORTANT:
 	 1. Please confirm with the GPP team that this is INDEED the latest data file submitted by the polling company.
