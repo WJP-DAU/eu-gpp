@@ -70,6 +70,76 @@ label define labels319 98 "Don't know", modify
 // # of family members gives 5 as an option, should be included in 4 or more
 replace A7 = 4 if A7 == 5
 
+// Yes/No include the routing instructions, need to get rid of those
+foreach x of varlist q6a q6b q6c q6d q6e q7* q20 q22 q24 q28* q33c q38b q38g q38h disability A5b B2 {
+	recode `x' (1 = 1 "Yes") (2 = 2 "No") (98 = 98 "Don't know") (99 = 99 "No Answer"), g(var_aux)
+	drop `x'
+	rename var_aux `x'
+}
+
+// Remove routing instructions
+foreach x of varlist q26 q30 {
+	recode `x' (1 = 1 "Ongoing") (2 = 2 "Too early to say") (3 = 3 "Done with, but problem persists") (4 = 4 "Done with, problem fully resolved") (98 = 98 "Don't know") (99 = 99 "No answer"), g(x_aux)
+	drop `x'
+	rename x_aux `x'
+	}
+
+recode q27 (1 = 1 "Agreement between you and the other party") (2 = 2 "The other party independently doing what you wanted") (3 = 3 "You independently doing what the other party wanted") (4 = 4 "The problem sorting itself out") (5 = 5 "You moving away from the problem (e.g. moving homes, changing jobs)") (6 = 6 "You and/or all other parties giving up trying to resolve the problem") (7 = 7 "None of these") (98 = 98 "Don't know") (99 = 99 "No answer"), g(q27_aux)
+	
+drop q27
+	
+rename q27_aux q27
+	
+
+foreach x of varlist q29* {
+	recode `x' (1 = 1 "Myself (or someone on my behalf)") (2 =2 "The other party") (3 = 3 "Someone else") (98 = 98 "Don't know") (99 = 99 "No answer"), g(q29_aux)
+	drop `x'
+	rename q29_aux `x'
+}
+
+recode q34 (1 = 1 "Very satisfied") (2 = 2 "Satisfied") (3 = 3 "Dissatisfied") (4 = 4 "Very dissatisfied") (98 = 98 "Don't know") (99 = 99 "No answer"), g(q34_aux)
+	
+drop q34
+	
+rename q34_aux q34
+	
+foreach x of varlist q44*G1 {
+	recode `x' (1 = 1 "Very Confident") (2 = 2 "Fairly confident") (3 = 3 "Not very confident") (4 = 4 "Not at all confident") (98 = 99 "Don't know") (99 = 99 "No answer"), g(q44G1_aux)
+	drop `x'
+	rename q44G1_aux `x'
+	}
+
+foreach x of varlist q44*G2 {
+	recode `x' (1 = 1 "Strongly Agree") (2 = 2 "Agree") (3 = 3 "Disagree") (4 = 4 "Strongly Disagree") (98 = 98 "Don't know") (99 = 99 "No answer"), g(q44G2_aux)
+	drop `x'
+	rename q44G2_aux `x'
+	}
+
+recode emp (1 = 1 "Worked") (2 = 2 "Had work, but did not work") (3 = 3 "Looked for work") (4 = 4 "Studied") (5 = 5 "Dedicated yourself to household tasks") (6 = 6 "Were retired") (7 = 7 "Were permanently incapable of working") (8 = 8 "Did not work") (99 = 99 "No answer"), g(emp_aux)
+	
+drop emp
+	
+rename emp_aux emp
+
+recode work (1 = 1 "Government worker") (2 = 2 "Private sector worker") (3 = 3 "Independent professional") (4 = 4 "Self-employed worker") (5 = 5 "Day laborer") (6 = 6 "Businessman or businesswomen") (7 =7 "Entrepreneur or business owner") (8 = 8 "Unpaid worker") (99 = 99 "No answer"), g(work_aux)
+	
+drop work
+	
+rename work_aux work
+
+recode marital (1 = 1 "Single") (2 = 2 "Domestic partnership/living as married") (3 = 3 "Married") (4 = 4 "Divorced") (5 = 5 "Widowed") (99 = 99 "No answer"), g(marital_aux)
+	
+drop marital
+	
+rename marital_aux marital
+
+recode qpi3a (1 = 1 "Not at all") (2 = 2 "Little") (3 = 3 "Somewhat") (4 = 4 "Very much") (98 = 98 "Don't know") (99 = 99 "No answer"), g(qpi3a_aux)
+	
+drop qpi3a
+	
+rename qpi3a_aux qpi3a
+
+
 // Most obs are missing the income var (not DK/NA, actually missing - as if they never saw the question)
 
 // Also some people reported their income in Kuna, while the most reported it in Euro (and there are way more obs for income_cur than income)
