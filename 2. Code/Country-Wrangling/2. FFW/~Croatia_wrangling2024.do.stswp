@@ -146,7 +146,7 @@ replace Income2 = Income2 * 809/6099 if income_cur == "Kuna"
 
 local n = _N
 
-forvalues i = 1/`n' {
+foreach i of numlist 1/`=_N' {
 	if missing(income[`i']) {
 		if (Income2[`i'] <= 809 & Income2[`i'] >= 0) {
 			replace income = 1 in `i'
