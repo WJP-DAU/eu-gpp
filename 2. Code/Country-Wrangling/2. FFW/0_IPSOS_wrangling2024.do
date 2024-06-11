@@ -12,6 +12,8 @@ This dofile follows the guidelines in the GPP Cleaning and Validation Protol for
 free to use the EU Copilot app (https://eu-copilot.streamlit.app/) to support your routine writing, consult the
 protocol guidelines and use the interactive codebook tool.
 
+Original file name: "Ipsos_FFW_20240424.sav"
+
 =================================================================================================================*/
 
 /*=================================================================================================================
@@ -117,9 +119,13 @@ drop Age2 quota_q39 ///
 	consent_relig consent_ethni consent_disability consent_politics Income2_check ///
 	region_nuts3 region_nuts2 region_nuts1
 	
+drop q60_G1_1 q60_G1_2 q60_G1_3 q60_G2_1 q60_G2_2 q60_G2_3 q60_G3_1 q60_G3_2 q60_G3_3
+	
 /*=================================================================================================================
 					Renaming/Recoding variables
 =================================================================================================================*/
+
+merge 1:1 id using "${path2data}/2. FFW/0_IPSOS/0. Raw Data/translated_q60.dta", nogen
 
 rename weight dweight
 
