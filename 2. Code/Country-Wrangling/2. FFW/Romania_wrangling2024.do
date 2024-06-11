@@ -53,15 +53,12 @@ forvalues j = 1/3 {
 					Renaming/Recoding variables
 =================================================================================================================*/
 
-rename (income2 income_cur1) (Income2 income_cur)
-// _pctile Income2 if Income2 > 0, p(20 40 60 80)
-recode Income2 ///
-	(min/3000  = 1 "1st quintile") ///
-	(3001/5000 = 2 "2nd quintile") ///
-	(5001/6000 = 3 "3rd quintile") ///
-	(6001/8000 = 4 "4th quintile") ///
-	(8001/max  = 5 "5th quintile"), g(income)
-foreach x of varlist income_cur income_time q17  City Region ethni relig paff2 q60_G*_1 q60_G*_2 q60_G*_3 {
+foreach x in q60_G1_1 q60_G1_2 q60_G1_3 q60_G2_1 q60_G2_2 q60_G2_3 q60_G3_1 q60_G3_2 q60_G3_3 {
+	rename `x'_EN `x'
+}
+
+rename (income1 income2 income_cur1) (income Income2 income_cur)
+foreach x of varlist income_cur income_time q17  City Region ethni relig paff2 {
 	rename `x' `x'_aux
 	decode `x'_aux, g(`x')
 	drop `x'_aux

@@ -73,6 +73,19 @@ foreach x in labels118 labels119 labels131 {
 	label define `x' 98 "Don't know", modify
 	label define `x' 99 "No answer", modify
 }
+label define labels119 ///
+	1 "Polish" ///
+	2 "Belarussian" ///
+	3 "Czech" ///
+	4 "Karaite" ///
+	5 "Kashubian" ///
+	6 "Lithuanian" ///
+	7 "Lemko" ///
+	9 "Armenian" ///
+	13 "Silesian" ///
+	14 "Tatar" ///
+	15 "Ukrainian" ///
+	17 "Jewish", modify
 
 g hours   = hh(Interview_length)
 g minutes = mm(Interview_length)
@@ -85,6 +98,8 @@ rename Interview_length_aux Interview_length
 g incpp = 0
 replace incpp = 1 if paff2 == 1
 
+drop Region
+rename NUTS2 Region
 foreach x of varlist Region relig ethni paff2 {
 	rename `x' `x'_aux
 	decode `x'_aux, g(`x')
@@ -112,9 +127,8 @@ foreach x of varlist q14* q21* q36* {
 ** DONE ABOVE
 
 *--- Ethnicity groups:
-// g ethni_groups = 0
-// replace ethni_groups = 1 if ethni == [MAJOR ETHNICITY]
-g ethni_groups = .
+g ethni_groups = 0
+replace ethni_groups = 1 if ethni == "Polish"
 
 
 /*=================================================================================================================

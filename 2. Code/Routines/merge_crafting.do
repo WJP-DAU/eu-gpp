@@ -104,5 +104,5 @@ foreach country in `subdirs' {
 =================================================================================================================*/
 sort country_name_ltn nuts_id id
 drop NUTS2 agegroup weight_nuts2_1 weight_nuts2_2 weight_nuts2_3 weight_nuts2_4 weight_national ///
-	Q60_G4 Q60_G3 Q60_G2 Q60_G0
+	Q60_G4 Q60_G3 Q60_G2 Q60_G0 Q60_G1 Weight2 weight_nuts1_1 weight_nuts1_2 weight_nuts1_3
 save "${path2data}/3. Merge/EU_GPP_2024.dta", replace
