@@ -107,9 +107,11 @@ foreach x in a b c d{
 	g q33`x' = .
 }
 
-*--- Missing variables:
-g Region = ""
-g dweight = .
+*--- Adding Regions & Weights data:
+merge 1:1 id using "${path2data}/2. FFW/Ireland/0. Raw Data/Regions.dta", nogen
+merge 1:1 id using "${path2data}/2. FFW/Ireland/0. Raw Data/Weights.dta", nogen
+rename obs_weight dweight
+
 
 /*=================================================================================================================
 					Dropping variables added by the polling company
